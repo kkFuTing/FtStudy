@@ -1,4 +1,4 @@
-package com.futing.javalib.thread;
+package com.futing.javalib.algorithm.thread;
 
 import org.graalvm.compiler.core.common.type.ArithmeticOpTable;
 
