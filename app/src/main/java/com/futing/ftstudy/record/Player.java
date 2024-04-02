@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.futing.ftstudy.record;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;

@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "FtStudy"
 include ':app'
+include ':javalib'
+

@@ -1,17 +1,21 @@
-package com.example.myapplication;
-
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
+package com.futing.ftstudy.record;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.futing.ftstudy.R;
+
 import java.io.IOException;
 
+/**
+ * 物是人非
+ * 但音频播放。
+ */
 public class MainActivity extends AppCompatActivity {
     String fileNames[] = null;
     private Player mPlayer = new Player();
@@ -19,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_record);
         testBitMap();
         try {
             fileNames = getAssets().list("sound");

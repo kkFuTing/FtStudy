@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.futing.ftstudy.record;
 
 //单个播放
 interface ICallBackPlay {
