@@ -1,4 +1,4 @@
-package com.futing.javalib.algorithm.thread;
+package com.futing.javalib.thread;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.futing.javalib.algorithm.thread.threadlocal;
+package com.futing.javalib.thread.threadlocal;
 
 /**
  * Created by futing on 2024/3/30.

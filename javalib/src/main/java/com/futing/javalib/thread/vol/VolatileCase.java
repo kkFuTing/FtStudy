@@ -1,4 +1,4 @@
-package com.futing.javalib.algorithm.thread.vol;
+package com.futing.javalib.thread.vol;
 
 /**
  * Created by futing on 2024/3/30.

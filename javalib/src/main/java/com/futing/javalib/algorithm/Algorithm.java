@@ -15,7 +15,7 @@ public class Algorithm {
 
     //     Definition for singly-linked list.
     public class ListNode {
-        int      val;
+        int val;
         ListNode next;
 
         ListNode() {
@@ -46,16 +46,17 @@ public class Algorithm {
      * @param l2
      * @return
      */
+
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode resultNode = new ListNode();
+        ListNode headerNode = new ListNode();
+        ListNode resultNode = headerNode;
+
         int inc = 0;
-        String R = "";
         while (l1 != null || l2 != null) {
 
             int val1 = 0;
             if (l1 != null) {
                 val1 = l1.val;
-                R+=val1;
                 l1 = l1.next;
             }
             int val2 = 0;
@@ -73,12 +74,16 @@ public class Algorithm {
             if (resultNode.next != null) {
                 resultNode = resultNode.next;
             }
-            resultNode.val = Integer.parseInt(R);
+            resultNode.val = addResult;
             resultNode.next = new ListNode();
         }
-
-        resultNode.next = null;
-        return resultNode;
+        if (inc == 1) {
+            resultNode = resultNode.next;
+            resultNode.val = inc;
+        } else {
+            resultNode.next = null;
+        }
+        return headerNode;
     }
 
     //1、两数之和 [2,7,11,15]

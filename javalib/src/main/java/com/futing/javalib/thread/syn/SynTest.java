@@ -1,4 +1,4 @@
-package com.futing.javalib.algorithm.thread.syn;
+package com.futing.javalib.thread.syn;
 
 /**
  * synchronized 的使用
