@@ -10,8 +10,45 @@ import jdk.internal.net.http.common.Log;
 public class Algorithm {
 
     public static void main(String[] args) {
-        //
+        //3无重复字符串的最长子串
+
+//        System.out.println(lengthOfLongestSubstring("abcabcbb") + "");
+        System.out.println(lengthOfLongestSubstring("aabaab!b") + "");
+
+
     }
+
+    /**
+     * 3无重复字符串的最长子串
+     *
+     * @param s
+     * @return
+     * @see <a href="https://leetcode.cn/problems/longest-substring-without-repeating-characters/">3无重复字符串的最长子串</a>
+     * <p>
+     * 自己做出来了，未对答案，看代码，但是调试了很多次，有些地方考虑的不周全；
+     */
+    public static int lengthOfLongestSubstring(String s) {
+        int maxLength = 0;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char charAt = s.charAt(i);
+            int replaceIndex = stringBuilder.indexOf(charAt + "");
+            if (replaceIndex != -1) {
+                //一开始没有考虑到的点：
+                //1、 删掉了，要加上stringBuilder.append(charAt);
+                //2、以及删掉范围是写的是0，replaceIndex ；应该是0，replaceIndex+1；
+                stringBuilder.delete(0, replaceIndex + 1);
+                stringBuilder.append(charAt);
+            } else {
+                stringBuilder.append(charAt);
+                int length = stringBuilder.length();
+                maxLength = Math.max(length, maxLength);
+            }
+        }
+
+        return maxLength;
+    }
+
 
     //     Definition for singly-linked list.
     public class ListNode {
@@ -41,6 +78,7 @@ public class Algorithm {
      * 7->0>8
      * <p>
      * 342+465 =807
+     * 自己实现的，未看答案；
      *
      * @param l1
      * @param l2
