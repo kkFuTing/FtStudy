@@ -22,9 +22,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         viewById = findViewById(R.id.tv_show);
         txBeijingTime = findViewById(R.id.tv_beijing_time);
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.indexOf();
-
     }
 
     public void current_time(View view) {

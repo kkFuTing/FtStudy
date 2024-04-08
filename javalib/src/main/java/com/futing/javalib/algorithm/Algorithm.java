@@ -14,7 +14,167 @@ public class Algorithm {
 
 //        System.out.println(lengthOfLongestSubstring("abcabcbb") + "");
         System.out.println(lengthOfLongestSubstring("aabaab!b") + "");
+        System.out.println(convert("PAYPALISHIRING", 3) + "");
+        System.out.println(convert("AB", 1) + "");
+//        System.out.println(convert("PAYPALISHIRING",3).length() + "");
+//        System.out.println("PAHNAPLSIIGYIR".length() + "");
+//        System.out.println(convert("PAYPALISHIRING",3).equals("PAHNAPLSIIGYIR") + "");
 
+
+    }
+
+    /**
+     * 参照题解：方法一：利用二维矩阵模拟
+     * 没处理完
+     *
+     * @param s
+     * @param numRows
+     * @return
+     */
+    public static String convert1(String s, int numRows) {
+        int length = s.length();
+        if (length <= 1 || numRows <= 1) {
+            return s;
+        }
+
+        //列不知道多少行才好
+        char[][] dp = new char[numRows][s.length()];
+        int col = 0;
+        boolean inc = true;
+        int row = 0;
+        for (int i = 0; i < s.length(); i++) {
+            dp[row][col] = s.charAt(i);
+            if (row == 0) {
+                inc = true;
+            }
+
+            if (row >= numRows - 1) {
+                inc = false;
+            }
+
+
+            if (inc) {
+                row++;
+            } else {
+                row--;
+                col++;
+            }
+        }
+
+        StringBuilder resultStr = new StringBuilder();
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < s.length(); j++) {
+                if (dp[i][j] != 0) {
+                    resultStr.append(dp[i][j]);
+                }
+            }
+
+        }
+        return resultStr.toString();
+    }
+
+    /**
+     * 6. Z 字形变换
+     *
+     * @param s       自己调试出来的
+     * @param numRows
+     * @return 提交时，没通过的测试用例 convert("AB", 1) Index -1 out of bounds for length 1
+     * + row = Math.max(row, 0); row = Math.min(row, numRows - 1);
+     * @see <a href="https://leetcode.cn/problems/zigzag-conversion/description/"></a>
+     */
+    //未看题解 自己调试出来的
+    public static String convert(String s, int numRows) {
+        //列不知道多少行才好
+        char[][] dp = new char[numRows][s.length()];
+        int col = 0;
+        boolean inc = true;
+        int row = 0;
+        for (int i = 0; i < s.length(); i++) {
+            dp[row][col] = s.charAt(i);
+            if (row == 0) {
+                inc = true;
+            }
+
+            if (row >= numRows - 1) {
+                inc = false;
+            }
+
+
+            if (inc) {
+                row++;
+            } else {
+                row--;
+                col++;
+            }
+
+            row = Math.max(row, 0);
+            row = Math.min(row, numRows - 1);
+
+        }
+
+        StringBuilder resultStr = new StringBuilder();
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < s.length(); j++) {
+                if (dp[i][j] != 0) {
+                    resultStr.append(dp[i][j]);
+                }
+            }
+
+        }
+        return resultStr.toString();
+    }
+
+    /**
+     * 5. 最长回文子串
+     * https://leetcode.cn/problems/longest-palindromic-substring/description/
+     *
+     * @param s
+     * @return (无法做出来 ， 参照官方题解动态规划想了很久才理解 。 还去看了
+     * @see <a href="https://mp.weixin.qq.com/s/3h9iqU4rdH3EIy5m6AzXsg">动态规划小灰</a>
+     * -)
+     * 2024/04/08
+     */
+    public String longestPalindrome(String s) {
+        if (s == null) {
+            return "";
+        }
+        if (s.length() < 2) {
+            return s;
+        }
+        char[] chars = s.toCharArray();
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            dp[i][i] = true;
+        }
+        int maxLength = 1;
+        int begin = 0;
+        for (int L = 2; L <= s.length(); L++) {
+            for (int l = 0; l < s.length(); l++) {
+                //r 右边index 没写对
+                int r = L + l - 1;
+                if (r >= s.length()) {
+                    break;
+                }
+
+                if (chars[l] != chars[r]) {
+                    dp[l][r] = false;
+                } else {
+                    if (r - l < 3) {
+                        dp[l][r] = true;
+                    } else {
+                        dp[l][r] = dp[l + 1][r - 1];
+                    }
+                }
+
+
+                if (dp[l][r] && r - l + 1 > maxLength) {
+                    maxLength = r - l + 1;
+                    begin = l;
+                }
+            }
+        }
+
+        return s.substring(begin, begin + maxLength);
 
     }
 
@@ -52,7 +212,7 @@ public class Algorithm {
 
     //     Definition for singly-linked list.
     public class ListNode {
-        int val;
+        int      val;
         ListNode next;
 
         ListNode() {
