@@ -3,7 +3,9 @@ package com.futing.javalib.algorithm;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 import jdk.internal.net.http.common.Log;
 
@@ -47,6 +49,8 @@ public class Algorithm {
             if (row == 0) {
                 inc = true;
             }
+            System.out.println(lengthOfLongestSubstring("aabaab!b") + "");
+
 
             if (row >= numRows - 1) {
                 inc = false;
@@ -175,7 +179,34 @@ public class Algorithm {
         }
 
         return s.substring(begin, begin + maxLength);
+    }
 
+
+    /**
+     * 解法2：双指针+HashSet
+     * 2024/04/05
+     */
+    public static int lengthOfLongestSubstring2(String s) {
+        if (s == null || s.length() <= 0) {
+            return 0;
+        }
+
+        int maxLength = 0;
+        HashSet<Character> hashSet = new HashSet<>();
+        int slowP = 0;
+        int fastP = 0;
+        while (fastP < s.length()) {
+            if (hashSet.contains(s.charAt(fastP))) {
+                maxLength = Math.max(maxLength, fastP - slowP);
+                hashSet.remove(s.charAt(slowP));
+                slowP++;
+            } else {
+                hashSet.add(s.charAt(fastP));
+                fastP++;
+            }
+        }
+        maxLength = Math.max(maxLength, fastP - slowP);
+        return maxLength;
     }
 
     /**
@@ -186,6 +217,7 @@ public class Algorithm {
      * @see <a href="https://leetcode.cn/problems/longest-substring-without-repeating-characters/">3无重复字符串的最长子串</a>
      * <p>
      * 自己做出来了，未对答案，看代码，但是调试了很多次，有些地方考虑的不周全；
+     * 2024/04/04
      */
     public static int lengthOfLongestSubstring(String s) {
         int maxLength = 0;
@@ -212,7 +244,7 @@ public class Algorithm {
 
     //     Definition for singly-linked list.
     public class ListNode {
-        int      val;
+        int val;
         ListNode next;
 
         ListNode() {
