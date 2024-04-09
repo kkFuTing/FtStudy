@@ -1,6 +1,7 @@
 package com.futing.javalib.algorithm;
 
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+import com.sun.org.apache.bcel.internal.generic.RET;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,6 +27,71 @@ public class Algorithm {
     }
 
     /**
+     * 题解
+     *
+     * @param x
+     * @return
+     * 2024/04/09
+     */
+    //题解
+    public int reverse1(int x) {
+        if (x < 10 && x > -10) {
+            return x;
+        }
+
+        int reverseVal = 0;
+        while (x != 0) {
+            if (reverseVal > Integer.MAX_VALUE / 10 || reverseVal < -Integer.MAX_VALUE / 10) {
+                return 0;
+            }
+            int num = x % 10;
+            x = x / 10;
+            reverseVal = reverseVal * 10 + num;
+        }
+        return reverseVal;
+    }
+
+    /**
+     * 自己做的奔方法
+     *
+     * @see <a href="https://leetcode.cn/problems/reverse-integer/description/"></a>
+     * 2024/04/09
+     */
+
+    public int reverse(int x) {
+        if (x < 10 && x > -10) {
+            return x;
+        }
+
+        String s = x + "";
+        StringBuilder builder = new StringBuilder();
+        if (x < 0) {
+            builder.append("-");
+        }
+        for (int i = s.length() - 1; i >= 0; i--) {
+            char c = s.charAt(i);
+            if (c == '0' && (builder.toString().equals("-") || builder.length() <= 0)) {
+                continue;
+            }
+
+            if (i == 0 && c == '-') {
+                break;
+            }
+            builder.append(c);
+        }
+        int resultNum = 0;
+
+        try {
+            resultNum = Integer.parseInt(builder.toString());
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+        }
+        return resultNum;
+
+    }
+
+    /**
+     * todo：未处理完
      * 参照题解：方法一：利用二维矩阵模拟
      * 没处理完
      *
@@ -244,7 +310,7 @@ public class Algorithm {
 
     //     Definition for singly-linked list.
     public class ListNode {
-        int val;
+        int      val;
         ListNode next;
 
         ListNode() {

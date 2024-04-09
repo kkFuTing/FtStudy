@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 
 import android.util.Log;
 
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -163,4 +164,6 @@ public class ExampleUnitTest {
             e.printStackTrace();
         }
     }
+
+
 }
