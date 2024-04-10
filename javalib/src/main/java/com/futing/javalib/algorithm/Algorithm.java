@@ -16,22 +16,98 @@ public class Algorithm {
         //3无重复字符串的最长子串
 
 //        System.out.println(lengthOfLongestSubstring("abcabcbb") + "");
-        System.out.println(lengthOfLongestSubstring("aabaab!b") + "");
-        System.out.println(convert("PAYPALISHIRING", 3) + "");
-        System.out.println(convert("AB", 1) + "");
+//        System.out.println(lengthOfLongestSubstring("aabaab!b") + "");
+//        System.out.println(convert("PAYPALISHIRING", 3) + "");
+//        System.out.println(convert("AB", 1) + "");
 //        System.out.println(convert("PAYPALISHIRING",3).length() + "");
 //        System.out.println("PAHNAPLSIIGYIR".length() + "");
 //        System.out.println(convert("PAYPALISHIRING",3).equals("PAHNAPLSIIGYIR") + "");
 
 
+        String s = "0";
+        char c = s.charAt(0);
+        System.out.println(c == '0');
+        System.out.println(c == 0);
+
+    }
+
+    /**
+     * 8. 字符串转换整数 (atoi)
+     * <p>
+     * 第一遍：提交测试用例："words and 987" 未通过
+     * 第二遍："+-12"
+     * 第三遍："+20000000000000000000" 未通过
+     * 第四遍："  0000000000012345678"未通过
+     *
+     * @see <a href></a>
+     */
+    public int myAtoi(String s) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char curChar = s.charAt(i);
+            String curStr = result.toString();
+
+            if (curStr.length() > 11) {
+                break;
+            }
+
+            if (!Character.isDigit(curChar) && curStr.length() >= 2) {
+                break;
+            }
+
+
+            if (curStr.length() == 0 && curChar != ' ' && curChar != '+' && curChar != '-' && !Character.isDigit(curChar)) {
+                break;
+            }
+
+            if (curStr.length() == 1 && !Character.isDigit(curChar)) {
+                break;
+            }
+
+            if (curChar == '-' && curStr.length() == 0) {
+                result.append(curChar);
+            }
+            if ((Character.isDigit(curChar) || curChar == '+') && curStr.length() == 0) {
+                result.append("+");
+            }
+
+            curStr = result.toString();
+            System.out.println("len："+curStr.length());
+            System.out.println(curChar);
+            System.out.println( curChar == 0);
+            if (curStr.length() == 1 && curChar == '0') {
+                System.out.println( "y");
+                continue;
+            }
+            System.out.println( "z");
+            if (Character.isDigit(curChar)) {
+                result.append(curChar);
+            }
+        }
+
+        if (result.toString().length() <= 1) {
+            return 0;
+        }
+
+
+        long resultL = Long.parseLong(result.toString());
+
+        if (resultL > Integer.MAX_VALUE) {
+            resultL = Integer.MAX_VALUE;
+        }
+
+        if (resultL < Integer.MIN_VALUE) {
+            resultL = Integer.MIN_VALUE;
+        }
+
+        return (int) resultL;
     }
 
     /**
      * 题解
      *
      * @param x
-     * @return
-     * 2024/04/09
+     * @return 2024/04/09
      */
     //题解
     public int reverse1(int x) {
