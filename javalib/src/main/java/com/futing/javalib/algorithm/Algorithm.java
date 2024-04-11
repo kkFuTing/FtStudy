@@ -31,14 +31,67 @@ public class Algorithm {
 
     }
 
+    //题解：有穷自动机DFA signed
+    public int myAtoi1(String s) {
+        HashMap<String, String[]> hashMap = new HashMap<>();
+        hashMap.put("start", new String[]{"start", "signed", "number", "end"});
+        hashMap.put("signed", new String[]{"end", "end", "number", "end"});
+        hashMap.put("number", new String[]{"end", "end", "number", "end"});
+        hashMap.put("end", new String[]{"end", "end", "end", "end"});
+        String state = "start";
+        long resVal = 0;
+        int sign = 1;
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            state = hashMap.get(state)[getStateIndex(c)];
+            if (state.equals("end")) {
+                break;
+            }
+
+            if (state.equals("number")) {
+                resVal = resVal * 10 + c-'0';
+            } else if (state.equals("signed")) {
+                sign = c == '-' ? 0 : 1;
+            }
+
+            if (resVal > Integer.MAX_VALUE && sign == 1) {
+                resVal = Integer.MAX_VALUE;
+                state = "end";
+            }
+//            ans = sign == 1 ? Math.min(ans, (long) Integer.MAX_VALUE) : Math.min(ans, -(long) Integer.MIN_VALUE);
+            if (resVal > -(long) Integer.MIN_VALUE && sign == 0) {
+                resVal = -(long) Integer.MIN_VALUE;
+                state = "end";
+            }
+
+        }
+        return (int) (sign * resVal);
+
+    }
+
+    public int getStateIndex(char cur) {
+        if (cur == ' ') {
+            return 0;
+        }
+        if (cur == '-' || cur == '+') {
+            return 1;
+        }
+
+        if (Character.isDigit(cur)) {
+            return 2;
+        }
+        return 3;
+    }
+
     /**
      * 8. 字符串转换整数 (atoi)
-     * <p>
+     *
+     * @see <a href="https://leetcode.cn/problems/string-to-integer-atoi/"></a>
      * 第一遍：提交测试用例："words and 987" 未通过
      * 第二遍："+-12"
      * 第三遍："+20000000000000000000" 未通过
      * 第四遍："  0000000000012345678"未通过
-     *
      * @see <a href></a>
      */
     public int myAtoi(String s) {
@@ -72,14 +125,14 @@ public class Algorithm {
             }
 
             curStr = result.toString();
-            System.out.println("len："+curStr.length());
+            System.out.println("len：" + curStr.length());
             System.out.println(curChar);
-            System.out.println( curChar == 0);
+            System.out.println(curChar == 0);
             if (curStr.length() == 1 && curChar == '0') {
-                System.out.println( "y");
+                System.out.println("y");
                 continue;
             }
-            System.out.println( "z");
+            System.out.println("z");
             if (Character.isDigit(curChar)) {
                 result.append(curChar);
             }
@@ -128,7 +181,7 @@ public class Algorithm {
     }
 
     /**
-     * 自己做的奔方法
+     * 自己做的笨方法
      *
      * @see <a href="https://leetcode.cn/problems/reverse-integer/description/"></a>
      * 2024/04/09
