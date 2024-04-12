@@ -50,18 +50,14 @@ public class Algorithm {
             }
 
             if (state.equals("number")) {
-                resVal = resVal * 10 + c-'0';
+                resVal = resVal * 10 + c - '0';
             } else if (state.equals("signed")) {
-                sign = c == '-' ? 0 : 1;
+                sign = c == '-' ? -1 : 1;
             }
 
-            if (resVal > Integer.MAX_VALUE && sign == 1) {
-                resVal = Integer.MAX_VALUE;
-                state = "end";
-            }
-//            ans = sign == 1 ? Math.min(ans, (long) Integer.MAX_VALUE) : Math.min(ans, -(long) Integer.MIN_VALUE);
-            if (resVal > -(long) Integer.MIN_VALUE && sign == 0) {
-                resVal = -(long) Integer.MIN_VALUE;
+            if (resVal > Integer.MAX_VALUE) {
+                resVal = sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+                sign = 1;
                 state = "end";
             }
 
