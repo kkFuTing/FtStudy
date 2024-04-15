@@ -39,4 +39,11 @@
         android:onClick="current_bj_time"
         android:text="当前时间" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="分享"
+        android:onClick="bt_share"
+        ></Button>
+
 </LinearLayout>

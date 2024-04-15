@@ -2,10 +2,13 @@ package com.futing.ftstudy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import com.futing.ftstudy.share.SystemShareActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,5 +51,10 @@ public class MainActivity extends AppCompatActivity {
         sdf.setTimeZone(timeZone);
         String beijingTime = sdf.format(currentTime);
         txBeijingTime.setText(beijingTime + "::");
+    }
+
+    public void bt_share(View view) {
+        Intent intent = new Intent(this, SystemShareActivity.class);
+        startActivity(intent);
     }
 }
