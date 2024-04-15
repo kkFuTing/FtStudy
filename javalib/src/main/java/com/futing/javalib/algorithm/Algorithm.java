@@ -1,14 +1,10 @@
 package com.futing.javalib.algorithm;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
-import com.sun.org.apache.bcel.internal.generic.RET;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
-
-import jdk.internal.net.http.common.Log;
 
 public class Algorithm {
 
@@ -29,41 +25,64 @@ public class Algorithm {
         System.out.println(c == '0');
         System.out.println(c == 0);
 
+        System.out.println(isPalindrome(21120));
+
     }
 
-    //题解：有穷自动机DFA signed
-    public int myAtoi1(String s) {
-        HashMap<String, String[]> hashMap = new HashMap<>();
-        hashMap.put("start", new String[]{"start", "signed", "number", "end"});
-        hashMap.put("signed", new String[]{"end", "end", "number", "end"});
-        hashMap.put("number", new String[]{"end", "end", "number", "end"});
-        hashMap.put("end", new String[]{"end", "end", "end", "end"});
-        String state = "start";
-        long resVal = 0;
-        int sign = 1;
+    /**
+     * 无限接近题解，所以没有看题解了
+     * 9. 回文数
+     * 进阶：你能不将整数转为字符串来解决这个问题吗？
+     * 第一次：10测试用例未通过
+     * 第一次：101测试用例未通过
+     * 第一次：21120测试用例未通过
+     *
+     * @see <a href="https://leetcode.cn/problems/palindrome-number/"></a>
+     */
 
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            state = hashMap.get(state)[getStateIndex(c)];
-            if (state.equals("end")) {
+    public static boolean isPalindrome(int x) {
+        int x2 = 0;
+        if (x < 0) {
+            return false;
+        }
+        if (x < 10) {
+            return true;
+        }
+        while (x2 < x && x >= 10) {
+            int num = x % 10;
+            x2 = x2 * 10 + num;
+            if (x2 != x) {
+                x = x / 10;
+            }
+            if (x2 == 0) {
                 break;
             }
-
-            if (state.equals("number")) {
-                resVal = resVal * 10 + c - '0';
-            } else if (state.equals("signed")) {
-                sign = c == '-' ? -1 : 1;
-            }
-
-            if (resVal > Integer.MAX_VALUE) {
-                resVal = sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-                sign = 1;
-                state = "end";
-            }
-
         }
-        return (int) (sign * resVal);
+        return x2 == x;
+    }
 
+    /**
+     * 9. 回文数
+     *
+     * @see <a href="https://leetcode.cn/problems/palindrome-number/"></a>
+     */
+
+    //自己实现的
+    public static boolean isPalindrome1(int x) {
+        if (x < 0) {
+            return false;
+        }
+        String s = String.valueOf(x);
+        int end = s.length();
+        boolean result = true;
+        for (int start = 0; start <= s.length() / 2; start++) {
+            end--;
+            if (s.charAt(start) != s.charAt(end)) {
+                result = false;
+                break;
+            }
+        }
+        return result;
     }
 
     public int getStateIndex(char cur) {
