@@ -22,11 +22,117 @@ public class Algorithm {
 
         String s = "0";
         char c = s.charAt(0);
-        System.out.println(c == '0');
-        System.out.println(c == 0);
+//        System.out.println(c == '0');
+//        System.out.println(c == 0);
 
-        System.out.println(isPalindrome(21120));
+//        System.out.println(isPalindrome(21120));
+        System.out.println(isMatch("mississippi", "mis*is*p*."));
 
+    }
+
+    /**
+     * 看了题解，瞄了思路,未认真看代码；
+     * 11.盛最多水的容器
+     * @see <a href="https://leetcode.cn/problems/container-with-most-water/description/"></a>
+     */
+
+    public int maxArea(int[] height) {
+        int l = 0;
+        int r = height.length - 1;
+        int result = 0;
+        while (l < r) {
+            int curHeight = Math.min(height[l], height[r]);
+            int curWidth = r - l;
+            result = Math.max(curWidth * curHeight, result);
+            if (height[l] < height[r]) {
+                l++;
+            } else {
+                r--;
+            }
+        }
+
+        return result;
+    }
+
+
+    /**
+     * 11.盛最多水的容器
+     *
+     * @see <a href="https://leetcode.cn/problems/container-with-most-water/description/"></a>
+     * 第一步：超出时间限制 ； （未处理）
+     */
+    //自己调试
+    public int maxArea1(int[] height) {
+        int result = 0;
+
+        for (int i = 0; i < height.length - 1; i++) {
+            for (int j = i + 1; j < height.length; j++) {
+                int temp = Math.min(height[i], height[j]) * (j - i);
+                result = Math.max(result, temp);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 10.正则表达式匹配
+     *
+     * @param s
+     * @param p '.' 匹配任意单个字符
+     *          '*' 匹配零个或多个前面的那一个元素
+     *          <p>
+     *          第一次提交 "aab"  "c*a*b" true 我是false
+     *          第一次提交 "mississippi" "mis*is*p*."  是false 我true
+     * @return
+     * @see <a href="https://leetcode.cn/problems/regular-expression-matching/"></a>
+     * <p>
+     * 比较难 放弃了
+     */
+    //自己调试实现
+    public static boolean isMatch(String s, String p) {
+        int pIndex = 0;
+        char preCharOfS = '0';
+        boolean anyPre = false;
+        boolean xPre = false;
+        int i;
+        for (i = 0; i < s.length(); i++) {
+            char curCharOfS = s.charAt(i);
+            char curCharOfP = ' ';
+            if (pIndex < p.length()) {
+                curCharOfP = p.charAt(pIndex);
+                pIndex++;
+            }
+
+            if (curCharOfP == '*') {
+                anyPre = true;
+                preCharOfS = curCharOfS;
+            }
+
+            if (curCharOfP == '.') {
+                xPre = true;
+                continue;
+            }
+
+            if (curCharOfS == curCharOfP) {
+                preCharOfS = curCharOfS;
+                continue;
+            }
+
+
+            if (anyPre && (xPre || curCharOfS == preCharOfS)) {
+                continue;
+            }
+
+            if (pIndex < p.length()) {
+                i = 0;
+                continue;
+            }
+
+            break;
+
+        }
+
+        return i == s.length();
     }
 
     /**
