@@ -19,7 +19,6 @@ public class Algorithm {
 //        System.out.println("PAHNAPLSIIGYIR".length() + "");
 //        System.out.println(convert("PAYPALISHIRING",3).equals("PAHNAPLSIIGYIR") + "");
 
-
         String s = "0";
         char c = s.charAt(0);
 //        System.out.println(c == '0');
@@ -28,11 +27,63 @@ public class Algorithm {
 //        System.out.println(isPalindrome(21120));
         System.out.println(isMatch("mississippi", "mis*is*p*."));
 
+
+//        intToRoman()
+        intCa();
+
     }
+
+    private static void intCa() {
+        //取模问题
+        System.out.println(3999 % 1000);
+        System.out.println(3999 / 1000);
+
+        System.out.println(999 % 500);
+        System.out.println(999 / 500);
+    }
+
+
+    public static String intToRoman(int num) {
+        if (num <= 0 || num >= 4000) {
+            return "I";
+        }
+
+        HashMap<Object, Object> hashMap = new HashMap<>();
+        hashMap.put(1, "I");
+        hashMap.put(5, "V");
+        hashMap.put(10, "X");
+        hashMap.put(50, "L");
+        hashMap.put(100, "C");
+        hashMap.put(500, "D");
+        hashMap.put(1000, "M");
+        //特殊情况
+        hashMap.put(4, "IV");
+        hashMap.put(9, "IX");
+        hashMap.put(40, "XL");
+        hashMap.put(90, "XC");
+        hashMap.put(400, "CD");
+        hashMap.put(900, "CM");
+        StringBuilder result = new StringBuilder();
+        int i = num / 1000;
+        if (i > 0) {
+            result.append(hashMap.get(1000));
+        }
+
+        return "I";
+    }
+
+
+    /**
+     * 12. 整数转罗马数字
+     * @see <a href="https://leetcode.cn/problems/integer-to-roman/"></a>
+     *
+     */
+
 
     /**
      * 看了题解，瞄了思路,未认真看代码；
      * 11.盛最多水的容器
+     *
      * @see <a href="https://leetcode.cn/problems/container-with-most-water/description/"></a>
      */
 
