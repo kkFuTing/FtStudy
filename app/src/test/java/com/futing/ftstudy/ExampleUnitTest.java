@@ -8,6 +8,8 @@ import static org.junit.Assert.*;
 
 import android.util.Log;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,6 +26,49 @@ public class ExampleUnitTest {
     }
 
 
+    @Test
+    public void testFilename255(){
+        String filenamelength = "utf-8''xlsxlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xx%E6%96%87%E4%BB%B6.xlsx";
+        System.out.println(filenamelength.length());
+        String name = "xlsxlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xlsx%E6%96%87%E4%BB%B6xx%E6%96%87%E4%BB%B6.xlsx";
+        try {
+            String filename = URLDecoder.decode(name, "UTF-8");
+            System.out.println(filename);
+            System.out.println(filename.length());
+            System.out.println("++++++++");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println();
+        System.out.println("===========");
+        String fileName = "-1255583662_utf-8''xlsxlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xlsx文件xx文件.xlsx";
+        System.out.println(fileName.length());
+        System.out.println("--=======");
+        String trimFileName = trimFileName(fileName);
+
+        System.out.println(trimFileName);
+        System.out.println(trimFileName.length());
+    }
+
+    //Linux系统中文件名长度不能超过255个字符！
+    public String trimFileName(String fileName) {
+        if (fileName.length() <= 255) {
+            return fileName;
+        }
+
+        // 分割文件名和后缀名
+        int extensionIndex = fileName.lastIndexOf('.');
+        String name = fileName.substring(0, extensionIndex);
+        String extension = fileName.substring(extensionIndex);
+
+        // 如果文件名长度超过了 255 个字符，则截取前面 255 个字符
+        if (name.length() > 255 - extension.length()) {
+            name = name.substring(0, 255 - extension.length());
+        }
+
+        // 拼接文件名和后缀名
+        return name + extension;
+    }
     /**
      * work test
      * 获取文件目录的某个值
