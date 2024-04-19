@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application>
+
+<!--2424/04/19oppo新规检测出极光未同意隐私政策前前获取getInstalledPackages,移除在apk中 InitProvider、DataProvider  下面两个providerbegin-->
+        <provider
+            android:name="cn.jpush.android.service.InitProvider"
+            android:authorities="${applicationId}.jiguang.InitProvider"
+            android:exported="false"
+            tools:node="remove" />
+
+        <provider
+            android:name="cn.jpush.android.service.DataProvider"
+            android:authorities="${JPUSH_PKGNAME}.DataProvider"
+            android:exported="false"
+            android:process=":pushcore"
+            tools:node="remove" />
+        <meta-data
+            android:name="jpush_appkey"
+            android:value="${JPUSH_APPKEY}" />
+
+    </application>
+
+</manifest>

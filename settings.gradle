@@ -16,3 +16,4 @@ rootProject.name = "FtStudy"
 include ':app'
 include ':javalib'
 
+include ':jpush'

@@ -3,3 +3,27 @@ plugins {
     id 'com.android.application' version '7.4.2' apply false
     id 'com.android.library' version '7.4.2' apply false
 }
+
+
+//
+//task pkgAAR(type: Copy) {
+//    subprojects { p ->
+//        String name = p.name
+//        if (name != 'app') {
+//            dependsOn("$name:assembleRelease")
+//            from "$name/build/outputs/aar/$name-release.aar"
+//            into '../libs'
+//        }
+//    }
+//}
+
+task pkgAAR(type: Copy) {
+    subprojects { p ->
+        String name = p.name
+        if (name != 'app' && name != 'javalib') { // 排除 'javalib' 模块
+            dependsOn("$name:assembleRelease")
+            from "$name/build/outputs/aar/$name-release.aar"
+            into '../libs'
+        }
+    }
+}
