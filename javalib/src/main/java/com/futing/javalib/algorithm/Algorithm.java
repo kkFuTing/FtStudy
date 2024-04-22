@@ -42,42 +42,31 @@ public class Algorithm {
         System.out.println(999 / 500);
     }
 
-
-    public static String intToRoman(int num) {
+    /**
+     * //无法解出来，看了题解的思路；
+     * 12. 整数转罗马数字
+     *
+     * @see <a href="https://leetcode.cn/problems/integer-to-roman/"></a>
+     * 2024/04/22
+     */
+    public String intToRoman(int num) {
         if (num <= 0 || num >= 4000) {
             return "I";
         }
 
-        HashMap<Object, Object> hashMap = new HashMap<>();
-        hashMap.put(1, "I");
-        hashMap.put(5, "V");
-        hashMap.put(10, "X");
-        hashMap.put(50, "L");
-        hashMap.put(100, "C");
-        hashMap.put(500, "D");
-        hashMap.put(1000, "M");
-        //特殊情况
-        hashMap.put(4, "IV");
-        hashMap.put(9, "IX");
-        hashMap.put(40, "XL");
-        hashMap.put(90, "XC");
-        hashMap.put(400, "CD");
-        hashMap.put(900, "CM");
+        int[] values = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] symbols = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
         StringBuilder result = new StringBuilder();
-        int i = num / 1000;
-        if (i > 0) {
-            result.append(hashMap.get(1000));
+
+        for (int i = 0; i < values.length; i++) {
+            while (num >= values[i]) {
+                result.append(symbols[i]);
+                num -= values[i];
+            }
         }
 
-        return "I";
+        return result.toString();
     }
-
-
-    /**
-     * 12. 整数转罗马数字
-     * @see <a href="https://leetcode.cn/problems/integer-to-roman/"></a>
-     *
-     */
 
 
     /**
