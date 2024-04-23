@@ -30,7 +30,7 @@ public class Algorithm {
 
 //        intToRoman()
         intCa();
-
+        romanToInt1("MCMXCIV");
     }
 
     private static void intCa() {
@@ -41,6 +41,84 @@ public class Algorithm {
         System.out.println(999 % 500);
         System.out.println(999 / 500);
     }
+
+    /**
+     * 13. 罗马数字转整数
+     *
+     * @see <a href="https://leetcode.cn/problems/roman-to-integer/"></a>
+     * 2024/04/23
+     * 参看了题解思路
+     */
+    //参看了题解思路
+    public int romanToInt(String s) {
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>() {
+            {
+                put('I', 1);
+                put('V', 5);
+                put('X', 10);
+                put('L', 50);
+                put('C', 100);
+                put('D', 500);
+                put('M', 1000);
+            }
+        };
+        int resultValue = 0;
+
+        int length = s.length();
+        for (int i = 0; i < length; i++) {
+            Integer value = map.get(s.charAt(i));
+
+            if (i < length - 1 && value < map.get(s.charAt(i + 1))) {
+                resultValue -= value;
+            } else {
+                resultValue += value;
+            }
+        }
+
+        return resultValue;
+    }
+
+    /**
+     * 13. 罗马数字转整数
+     *
+     * @see <a href="https://leetcode.cn/problems/roman-to-integer/"></a>
+     * 2024/04/23
+     * 自己写的
+     */
+    public static int romanToInt1(String s) {
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("I", 1);
+        map.put("V", 5);
+        map.put("X", 10);
+        map.put("L", 50);
+        map.put("C", 100);
+        map.put("D", 500);
+        map.put("M", 1000);
+        map.put("IV", 4);
+        map.put("IX", 9);
+        map.put("XL", 40);
+        map.put("XC", 90);
+        map.put("CD", 400);
+        map.put("CM", 900);
+        int result = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char cOne = s.charAt(i);
+            int second = i + 1;
+            if (second < s.length()) {
+                String findStr = "" + cOne + s.charAt(second);
+                if (map.containsKey(findStr)) {
+                    result = result + map.get(findStr);
+                    i++;
+                    continue;
+                }
+            }
+            result = result + map.get(cOne + "");
+
+        }
+
+        return result;
+    }
+
 
     /**
      * //无法解出来，看了题解的思路；
