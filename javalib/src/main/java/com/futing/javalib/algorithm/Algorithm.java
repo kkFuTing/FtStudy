@@ -43,6 +43,77 @@ public class Algorithm {
     }
 
     /**
+     * 14. 最长公共前缀
+     * 题解思路
+     */
+
+    //参看了题解思路
+    public String longestCommonPrefix(String[] strs) {
+        if (strs.length == 0) {
+            return "";
+        }
+        String preStr = strs[0];
+        for (int i = 1; i < strs.length; i++) {
+            if (preStr.length() == 0) {
+                break;
+            }
+            String curStr = strs[i];
+            int length = Math.min(preStr.length(), curStr.length());
+
+            int index = 0;
+            while (index < length && preStr.charAt(index) == curStr.charAt(index)) {
+                index++;
+            }
+            preStr = preStr.substring(0, index);
+        }
+        return preStr;
+    }
+
+    /**
+     * 14. 最长公共前缀
+     *
+     * @see <a href="https://leetcode.cn/problems/longest-common-prefix/"></a>
+     * <p>
+     * <p>
+     * 2024/04/24
+     * 参看了题解思路
+     */
+    //自己调试
+    public String longestCommonPrefix1(String[] strs) {
+        if (strs.length == 0) {
+            return "";
+        }
+        StringBuilder resultStr = new StringBuilder();
+        int chatIndex = 0;
+        char sameC = 0;
+        for (int i = 0; i < strs.length; i++) {
+            String str = strs[i];
+            if (chatIndex == str.length()) {
+                break;
+            }
+
+            if (i == 0) {
+                sameC = str.charAt(chatIndex);
+//                "a" 不能continue 比如只有一个  "a"
+//                continue;
+            }
+            char curC = str.charAt(chatIndex);
+
+            if (curC != sameC) {
+                break;
+            }
+
+            if (i == strs.length - 1) {
+                resultStr.append(curC);
+                chatIndex++;
+                //注意此处应该为-1，结束后会执行+1
+                i = -1;
+            }
+        }
+        return resultStr.toString();
+    }
+
+    /**
      * 13. 罗马数字转整数
      *
      * @see <a href="https://leetcode.cn/problems/roman-to-integer/"></a>

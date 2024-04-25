@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "535476892420",
+    "project_id": "mpush-6cf79",
+    "storage_bucket": "mpush-6cf79.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:535476892420:android:a57cf5fbca509bb7ac9651",
+        "android_client_info": {
+          "package_name": "com.futing.ftstudy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO9sQs9sZdhN8xJNtwsNXFh6Jl1w7C8-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
