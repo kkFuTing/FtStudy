@@ -4,6 +4,7 @@ package com.futing.javalib.algorithm;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class Algorithm {
@@ -43,10 +44,21 @@ public class Algorithm {
     }
 
     /**
-     * 14. 最长公共前缀
-     * 题解思路
+     * 15.三数之和
+     * @see <a href="https://leetcode.cn/problems/3sum/"></a>
+     *
      */
 
+    public List<List<Integer>> threeSum(int[] nums) {
+        return null;
+
+    }
+
+    /**
+     * 14. 最长公共前缀
+     * 题解思路
+     * 2024/04/25
+     */
     //参看了题解思路
     public String longestCommonPrefix(String[] strs) {
         if (strs.length == 0) {
