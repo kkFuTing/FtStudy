@@ -13,8 +13,10 @@ import java.util.Set;
 public class Algorithm {
 
     public static void main(String[] args) {
-        //15.三数之和
-        System.out.println(threeSum(new int[]{0, 0, 0}));
+        //15.三数之和 //[-1,2,1,-4]
+        System.out.println(threeSumClosest(new int[]{-1, 2, 1, -4}, 1));
+//        System.out.println(threeSum(new int[]{0, 0, 0}));
+
 
         //3无重复字符串的最长子串
 
@@ -39,6 +41,107 @@ public class Algorithm {
 //        intCa();
 //        romanToInt1("MCMXCIV");
 
+    }
+
+    /**
+     * 参照题解（对我来说，仍旧比较难，还看了代码）
+     ** 16. 最接近的三数之和
+     * @param nums
+     * @param target
+     * @return
+     */
+    //参看题解
+    public static int threeSumClosest(int[] nums, int target) {
+
+        Arrays.sort(nums);
+
+        int resultNum = Integer.MAX_VALUE;
+
+        for (int first = 0; first < nums.length; first++) {
+            int firstNum = nums[first];
+            if (first > 0 && firstNum == nums[first - 1]) {
+                continue;
+            }
+            int l = first + 1;
+            int r = nums.length - 1;
+
+            while (l < r) {
+                int sum = firstNum + nums[l] + nums[r];
+                if (sum == target) {
+                    return sum;
+                }
+
+                if (Math.abs(target - sum) < Math.abs(target - resultNum)) {
+                    resultNum = sum;
+                }
+
+                if (sum > target) {
+                    r--;
+                    while (l < r && nums[r] == nums[r + 1]) {
+                        r--;
+                    }
+                } else {
+                    l++;
+                    while (l < r && nums[l] == nums[l - 1]) {
+                        l++;
+                    }
+                }
+            }
+
+        }
+
+        return resultNum;
+    }
+
+    /**
+     * 16. 最接近的三数之和
+     *
+     * @see <a href="https://leetcode.cn/problems/3sum-closest/"></a>
+     * //调试不过，因为估计是调试了顺序，导致结果不一致  如 [-1,2,1,-4] 我输出-1 他期望2
+     * 与 target 最接近的和是 2 (-1 + 2 + 1 = 2) 。
+     * 而我是先排序[-4,-1,1,2] 算出-1 （-4 12 ） 按道理差距也是2
+     */
+    public static int threeSumClosest1(int[] nums, int target) {
+
+        Arrays.sort(nums);
+
+        int resultNum = Integer.MAX_VALUE;
+
+        for (int first = 0; first < nums.length; first++) {
+            int firstNum = nums[first];
+            if (firstNum > 0 && firstNum == nums[first - 1]) {
+                continue;
+            }
+            int third = nums.length - 1;
+
+            for (int second = first + 1; second < nums.length; second++) {
+                int secondNum = nums[second];
+                if (second > first + 1 && secondNum == nums[second - 1]) {
+                    continue;
+                }
+
+                while (second < third && firstNum + secondNum + nums[third] > target) {
+                    third--;
+                }
+
+                if (second == third) {
+                    break;
+                }
+                if (third + 1 < nums.length) {
+                    if (Math.abs(resultNum - target) > Math.abs(firstNum + secondNum + nums[third + 1] - target)) {
+                        resultNum = firstNum + secondNum + nums[third + 1];
+                    }
+
+                }
+
+                if (Math.abs(resultNum - target) > Math.abs(firstNum + secondNum + nums[third] - target)) {
+                    resultNum = firstNum + secondNum + nums[third];
+                }
+
+            }
+        }
+
+        return resultNum;
     }
 
     private static void intCa() {
