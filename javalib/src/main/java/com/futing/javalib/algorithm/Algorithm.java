@@ -1,6 +1,9 @@
 package com.futing.javalib.algorithm;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -10,6 +13,9 @@ import java.util.Set;
 public class Algorithm {
 
     public static void main(String[] args) {
+        //15.三数之和
+        System.out.println(threeSum(new int[]{0, 0, 0}));
+
         //3无重复字符串的最长子串
 
 //        System.out.println(lengthOfLongestSubstring("abcabcbb") + "");
@@ -26,12 +32,13 @@ public class Algorithm {
 //        System.out.println(c == 0);
 
 //        System.out.println(isPalindrome(21120));
-        System.out.println(isMatch("mississippi", "mis*is*p*."));
+//        System.out.println(isMatch("mississippi", "mis*is*p*."));
 
 
 //        intToRoman()
-        intCa();
-        romanToInt1("MCMXCIV");
+//        intCa();
+//        romanToInt1("MCMXCIV");
+
     }
 
     private static void intCa() {
@@ -44,14 +51,86 @@ public class Algorithm {
     }
 
     /**
-     * 15.三数之和
-     * @see <a href="https://leetcode.cn/problems/3sum/"></a>
+     * 不仅参考题解思路，还看了题解代码，对我来说好难
      *
+     * @param nums
+     * @return
      */
 
-    public List<List<Integer>> threeSum(int[] nums) {
-        return null;
+    //参考题解思路
+    public static List<List<Integer>> threeSum(int[] nums) {
+        ArrayList<List<Integer>> lists = new ArrayList<>();
+        Arrays.sort(nums);
 
+        for (int firt = 0; firt < nums.length; firt++) {
+            int firstNum = nums[firt];
+            //同一个index 不能出现相同的数字
+            if (firt > 0 && firstNum == nums[firt - 1]) {
+                continue;
+            }
+            int third = nums.length - 1;
+
+            for (int sencod = firt + 1; sencod < nums.length; sencod++) {
+                int secondNum = nums[sencod];
+
+                if (sencod > firt + 1 && secondNum == nums[sencod - 1]) {
+                    continue;
+                }
+
+                //关键是第二个判断条件
+                while (sencod < third && secondNum + nums[third] > -firstNum) {
+                    third--;
+                }
+
+                if (sencod == third) {
+                    break;
+                }
+
+                if (secondNum + nums[third] + firstNum == 0) {
+                    ArrayList<Integer> integers = new ArrayList<>();
+                    integers.add(firstNum);
+                    integers.add(secondNum);
+                    integers.add(nums[third]);
+                    lists.add(integers);
+                }
+            }
+
+        }
+        return lists;
+    }
+
+    /**
+     * 15.三数之和
+     *
+     * @see <a href="https://leetcode.cn/problems/3sum/"></a>
+     */
+
+    //未看题解 (超时了)
+    public List<List<Integer>> threeSum1(int[] nums) {
+        List<List<Integer>> lists = new ArrayList<>();
+        List<Integer> hash = new ArrayList<>();
+        for (int i = 0; i < nums.length - 2; i++) {
+            for (int j = i + 1; j < nums.length - 1; j++) {
+                //是以j为基础
+                for (int k = j + 1; k < nums.length; k++) {
+                    if (nums[i] + nums[j] + nums[k] == 0) {
+                        ArrayList<Integer> list = new ArrayList<>();
+                        list.add(nums[i]);
+                        list.add(nums[j]);
+                        list.add(nums[k]);
+                        Collections.sort(list);
+                        int hashCode = list.hashCode();
+                        if (!hash.contains(hashCode)) {
+                            lists.add(list);
+                            hash.add(hashCode);
+
+                        }
+
+                    }
+                }
+            }
+        }
+        return lists;
     }
 
     /**

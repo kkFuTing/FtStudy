@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.firebasepush.FCMUtils;
 import com.futing.ftstudy.share.SystemShareActivity;
 
 import java.text.SimpleDateFormat;
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void bt_get_fcm_token(View view) {
-        FCMUtils.getToken(this);
+//        FCMUtils.getToken(this);
 
     }
 }
