@@ -6,9 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public class Algorithm {
 
@@ -44,8 +42,91 @@ public class Algorithm {
     }
 
     /**
+     * 17. 电话号码的字母组合
+     *
+     * @param digits
+     * @return
+     */
+    //参看题解
+    public List<String> letterCombinations(String digits) {
+        ArrayList<String> lists = new ArrayList<>();
+
+        if (digits == null || digits.length() == 0) {
+            return lists;
+        }
+        HashMap<Character, String> map = new HashMap<>();
+        map.put('2', "abc");
+        map.put('3', "def");
+        map.put('4', "ghi");
+        map.put('5', "jkl");
+        map.put('6', "mno");
+        map.put('7', "pqrs");
+        map.put('8', "tuv");
+        map.put('9', "wxyz");
+
+        backtrack(lists, map, digits, 0, new StringBuilder());
+        return lists;
+
+    }
+
+    private void backtrack(ArrayList<String> lists, HashMap<Character, String> map, String digits, int curIndex, StringBuilder listStrS) {
+
+        if (curIndex == digits.length()) {
+            lists.add(listStrS.toString());
+        } else {
+            String str = map.get(digits.charAt(curIndex));
+            for (int i = 0; i < str.length(); i++) {
+                listStrS.append(str.charAt(i));
+                backtrack(lists, map, digits, curIndex + 1, listStrS);
+                listStrS.deleteCharAt(curIndex);
+            }
+        }
+    }
+
+
+    /**
+     * 17. 电话号码的字母组合
+     *
+     * @see <a href="https://leetcode.cn/problems/letter-combinations-of-a-phone-number/"></a>
+     * 能想到用递归，但是我不会写递归
+     */
+    public List<String> letterCombinations1(String digits) {
+        ArrayList<String> lists = new ArrayList<>();
+
+        if (digits == null || digits.length() == 0) {
+            return lists;
+        }
+        HashMap<Character, String> map = new HashMap<>();
+        map.put('2', "abc");
+        map.put('3', "def");
+        map.put('4', "ghi");
+        map.put('5', "jkl");
+        map.put('6', "mno");
+        map.put('7', "pqrs");
+        map.put('8', "tuv");
+        map.put('9', "wxyz");
+
+        //只写到这里无从下手了
+
+        String s1 = map.get(digits.charAt(0));
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < digits.length(); i++) {
+
+            char num = digits.charAt(i);
+
+            String s = map.get(num);
+
+        }
+
+        return lists;
+
+    }
+
+    /**
      * 参照题解（对我来说，仍旧比较难，还看了代码）
-     ** 16. 最接近的三数之和
+     * * 16. 最接近的三数之和
+     *
      * @param nums
      * @param target
      * @return

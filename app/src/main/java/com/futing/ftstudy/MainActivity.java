@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.firebasepush.FCMUtils;
 import com.futing.ftstudy.share.SystemShareActivity;
+import com.futing.ftstudy.utils.NetworkUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,7 +61,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void bt_get_fcm_token(View view) {
-//        FCMUtils.getToken(this);
+        TextView textView = findViewById(R.id.tv_fcm);
+//        textView.setText(GoogleApiAvailability.makeGooglePlayServicesAvailable());
+//       realme  获取令牌成功fUP0izzUStGf7U83nBLTx-:APA91bH0CqbSQqsF7w6JcoNiU-p_yM_tcol4jzzRFjPiDcELwxHW0ToFejqgkGeLUYIT1zhXpidMjYcq4t9eHj0xCd8UTOWSrTYvNpOzUYvaGgyUnuTDTmRdvRjQHwRyqrVh46gyrf72
+        textView.setText(NetworkUtils.getIPAddress(this));
+        FCMUtils.getToken(this);
 
     }
 }

@@ -48,10 +48,15 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="获取FCM的令牌"
         android:onClick="bt_get_fcm_token"
-        >
-
+        android:text="获取FCM的令牌">
     </Button>
+
+    <TextView
+        android:id="@+id/tv_fcm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
 
 </LinearLayout>

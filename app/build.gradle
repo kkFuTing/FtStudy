@@ -48,6 +48,6 @@ dependencies {
 
 //    implementation project(':jpush')
 
-//    implementation project(':firebasepush')
+    implementation project(':firebasepush')
 
 }
