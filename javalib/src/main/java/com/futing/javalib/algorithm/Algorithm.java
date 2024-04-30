@@ -11,8 +11,11 @@ import java.util.List;
 public class Algorithm {
 
     public static void main(String[] args) {
+        //18. 四数之和
+        System.out.println(fourSum(new int[]{1000000000, 1000000000, 1000000000, 1000000000}, -294967296));
+
         //15.三数之和 //[-1,2,1,-4]
-        System.out.println(threeSumClosest(new int[]{-1, 2, 1, -4}, 1));
+//        System.out.println(threeSumClosest(new int[]{-1, 2, 1, -4}, 1));
 //        System.out.println(threeSum(new int[]{0, 0, 0}));
 
 
@@ -42,7 +45,164 @@ public class Algorithm {
     }
 
     /**
+     * 18. 四数之和
+     * @see <a href="https://leetcode.cn/problems/4sum/description/"></a>
+     * //参照题解思路，稍稍改了自己写的代码（主要是边界值的判断）
+     * @param nums
+     * @param target
+     * @return
+     * 2024/04/30
+     */
+    public static List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> lists = new ArrayList<>();
+        if (nums == null || nums.length < 4) {
+            return lists;
+        }
+        Arrays.sort(nums);
+        int length = nums.length;
+        for (int i = 0; i < nums.length - 3; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            if ((long) nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target) {
+                break;
+            }
+            if ((long) nums[i] + nums[length - 3] + nums[length - 2] + nums[length - 1] < target) {
+                continue;
+            }
+
+            for (int j = i + 1; j < nums.length - 2; j++) {
+
+                if (j > i + 1 && nums[j] == nums[j - 1]) {
+                    continue;
+                }
+
+                if ((long) nums[i] + nums[j] + nums[j + 1] + nums[j + 2] > target) {
+                    break;
+                }
+                if ((long) nums[i] + nums[j] + nums[length - 2] + nums[length - 1] < target) {
+                    continue;
+                }
+
+
+                //每考虑到负数的情况 如 [1,-2,-5,-4,-3,3,3,5]  -11  我将没有输出
+//                if (nums[i] + nums[j] > target) {
+//                    continue;
+//                }
+
+                int k = j + 1;
+                int l = nums.length - 1;
+                while (k < l) {
+                    if (k > j + 1 && nums[k] == nums[k - 1]) {
+                        k++;
+                        continue;
+                    }
+                    if (l < nums.length - 1 && nums[l] == nums[l + 1]) {
+                        l--;
+                        continue;
+                    }
+                    //未考虑到相加大于int值的场景
+                    int sum = nums[i] + nums[j] + nums[k] + nums[l];
+                    if (sum == target) {
+                        ArrayList<Integer> integers = new ArrayList<>();
+                        integers.add(nums[i]);
+                        integers.add(nums[j]);
+                        integers.add(nums[k]);
+                        integers.add(nums[l]);
+                        lists.add(integers);
+                    }
+
+                    if (sum < target) {
+                        k++;
+                    } else {
+                        l--;
+                    }
+                }
+
+            }
+        }
+        return lists;
+    }
+
+    /**
+     * 18. 四数之和
+     *
+     * @see <a href="https://leetcode.cn/problems/4sum/"></a>
+     * 想到的是用回溯的方法，枚举所有答案看是否符合 写了一会 发现无法实现，于是想到双针吧 写双指针发现没找全=>调整了好久终于实现
+     * 提交1： [1,-2,-5,-4,-3,3,3,5]  -11 错误
+     * 输出[]
+     * 预期结果[[-5,-4,-3,1]]
+     * <p>
+     * 提交2 [1000000000,1000000000,1000000000,1000000000]
+     * target =
+     * -294967296
+     * <p>
+     * 输出
+     * [[1000000000,1000000000,1000000000,1000000000]]
+     * 预期结果
+     * []
+     * 2024/04/30
+     */
+    //-2 -1 0 0 1 2
+    //自己实现
+    public static List<List<Integer>> fourSum1(int[] nums, int target) {
+        List<List<Integer>> lists = new ArrayList<>();
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            for (int j = i + 1; j < nums.length; j++) {
+
+                if (j > i + 1 && nums[j] == nums[j - 1]) {
+                    continue;
+                }
+
+                //每考虑到负数的情况 如 [1,-2,-5,-4,-3,3,3,5]  -11  我将没有输出
+//                if (nums[i] + nums[j] > target) {
+//                    continue;
+//                }
+
+                int k = j + 1;
+                int l = nums.length - 1;
+                while (k < l) {
+                    if (k > j + 1 && nums[k] == nums[k - 1]) {
+                        k++;
+                        continue;
+                    }
+                    if (l < nums.length - 1 && nums[l] == nums[l + 1]) {
+                        l--;
+                        continue;
+                    }
+                    //未考虑到相加大于int值的场景
+                    int sum = nums[i] + nums[j] + nums[k] + nums[l];
+                    if (sum == target) {
+                        ArrayList<Integer> integers = new ArrayList<>();
+                        integers.add(nums[i]);
+                        integers.add(nums[j]);
+                        integers.add(nums[k]);
+                        integers.add(nums[l]);
+                        lists.add(integers);
+                    }
+
+                    if (sum < target) {
+                        k++;
+                    } else {
+                        l--;
+                    }
+                }
+
+            }
+        }
+        return lists;
+    }
+
+
+    /**
      * 17. 电话号码的字母组合
+     * 实现方法：回溯算法
      *
      * @param digits
      * @return
