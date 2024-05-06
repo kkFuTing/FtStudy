@@ -45,13 +45,75 @@ public class Algorithm {
     }
 
     /**
+     * 19.删除链表的倒数第N个节点
+     * 参照官方题解的双指针解题思路
+     *
+     * @param head
+     * @param n
+     * @return
+     */
+    // 参照官方题解的双指针解题思路
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode node = new ListNode(0, head);
+        ListNode first = head;
+        ListNode curNode = node;
+
+        for (int i = 0; i < n; i++) {
+            first = first.next;
+        }
+
+        while (first != null) {
+            first = first.next;
+            curNode = curNode.next;
+        }
+
+        curNode.next = curNode.next.next;
+
+        return node.next;
+    }
+
+    /**
+     * 19.删除链表的倒数第N个节点
+     *
+     * @param head
+     * @param n
+     * @return
+     * @see <a href="https://leetcode.cn/problems/remove-nth-node-from-end-of-list/"></a>
+     * 2024/05/06 看了基本和官网截图思路一致。少了个哑节点的设计，导致我判断较多
+     * 自己处理的
+     */
+    public ListNode removeNthFromEnd1(ListNode head, int n) {
+        ListNode next = head;
+        int length = 0;
+        while (next != null) {
+            length++;
+            next = next.next;
+        }
+
+        next = head;
+        int findN = length - n;
+
+        while (findN > 1 && next != null) {
+            findN--;
+            next = next.next;
+        }
+
+        if (findN == 0 && head != null) {
+            head = head.next;
+        } else if (next != null && next.next != null) {
+            next.next = next.next.next;
+        }
+        return head;
+    }
+
+    /**
      * 18. 四数之和
-     * @see <a href="https://leetcode.cn/problems/4sum/description/"></a>
-     * //参照题解思路，稍稍改了自己写的代码（主要是边界值的判断）
+     *
      * @param nums
      * @param target
-     * @return
-     * 2024/04/30
+     * @return 2024/04/30
+     * @see <a href="https://leetcode.cn/problems/4sum/description/"></a>
+     * //参照题解思路，稍稍改了自己写的代码（主要是边界值的判断）
      */
     public static List<List<Integer>> fourSum(int[] nums, int target) {
         List<List<Integer>> lists = new ArrayList<>();
