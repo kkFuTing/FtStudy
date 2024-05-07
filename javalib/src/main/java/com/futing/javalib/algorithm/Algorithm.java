@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Stack;
 
 public class Algorithm {
 
@@ -41,8 +42,80 @@ public class Algorithm {
 //        intToRoman()
 //        intCa();
 //        romanToInt1("MCMXCIV");
-
+        isValid("()");
     }
+
+    /**
+     * 20. 有效的括号
+     *
+     * @see <a href="https://leetcode.cn/problems/valid-parentheses/"></a>
+     * 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+     * 2024/05/07 10：08-10:15 参看题解思路
+     * 10：15-10：22 7min写完代码代码
+     */
+    //参照题解实现
+    public static boolean isValid(String s) {
+        //这个细节是之前未考虑到的
+        if (s.length() % 2 == 1) {
+            return false;
+        }
+        Stack<Character> stack = new Stack<>();
+        HashMap<Character, Character> map = new HashMap<>();
+        map.put(')', '(');
+        map.put('}', '{');
+        map.put(']', '[');
+
+        for (int i = 0; i < s.length(); i++) {
+            char curChat = s.charAt(i);
+
+            if (map.get(curChat) != null) {
+                if (stack.isEmpty() || stack.peek() != map.get(curChat)) {
+                    return false;
+                }
+                stack.pop();
+            } else {
+                stack.push(curChat);
+            }
+        }
+        return stack.isEmpty();
+    }
+
+
+    /**
+     * 20. 有效的括号
+     *
+     * @see <a href="https://leetcode.cn/problems/valid-parentheses/"></a>
+     * 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+     * 第一次提交失败：
+     * //xxx... return value of "java.util.HashMap.get(Object)" is null
+     * 需要加map.get(peek) != null 的判断
+     * 2024/05/07 9:48-10：08 30min 思路基本一样我截没有参照官方题解了
+     */
+    //自己实现
+    public static boolean isValid1(String s) {
+        Stack<Character> stack = new Stack<>();
+        HashMap<Character, Character> map = new HashMap<>();
+        map.put('(', ')');
+        map.put('{', '}');
+        map.put('[', ']');
+
+        for (int i = 0; i < s.length(); i++) {
+            char curChat = s.charAt(i);
+            if (stack.isEmpty()) {
+                stack.push(curChat);
+                continue;
+            }
+            Character peek = stack.peek();
+            if (map.get(peek) != null && curChat == map.get(peek)) {
+                stack.pop();
+            } else {
+                stack.push(curChat);
+            }
+
+        }
+        return stack.isEmpty();
+    }
+
 
     /**
      * 19.删除链表的倒数第N个节点
