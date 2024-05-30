@@ -49,6 +49,7 @@ public class SystemShareActivity extends Activity {
     }
 
     public String Body = "<div>Bonjour,</div><p><a href=\"https://www.google.fr\">Recherche</a></p><p>Fin</p>";
+
     //邮件
     private void share3() {
         Intent eMail = new Intent(android.content.Intent.ACTION_SEND);

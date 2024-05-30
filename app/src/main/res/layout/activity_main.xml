@@ -11,11 +11,7 @@
         android:id="@+id/tv_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Hello World!" />
 
     <Button
         android:layout_width="match_parent"
@@ -43,7 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="bt_share"
-        android:text="分享"></Button>
+        android:text="分享">
+    </Button>
 
     <Button
         android:layout_width="match_parent"
@@ -59,4 +56,15 @@
 
     </TextView>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="bt_string_id_setting"
+        android:text="@string/string_id_setting_test" />
+
+    <TextView
+        android:id="@+id/tv_string"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
 </LinearLayout>

@@ -18,3 +18,4 @@ include ':javalib'
 
 include ':jpush'
 include ':firebasepush'
+include ':kotlinlib'

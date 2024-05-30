@@ -1,19 +1,36 @@
 package com.futing.ftstudy;
 
-import androidx.appcompat.app.AppCompatActivity;
 
+import static com.futing.ftstudy.utils.ResFinder.findViewById;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.LocaleListCompat;
+
 import com.example.firebasepush.FCMUtils;
+import com.futing.ftstudy.language.LanguageActivity;
 import com.futing.ftstudy.share.SystemShareActivity;
 import com.futing.ftstudy.utils.NetworkUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,5 +84,16 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(NetworkUtils.getIPAddress(this));
         FCMUtils.getToken(this);
 
+    }
+
+    public void bt_string_id_setting(View view) {
+        startActivity(new Intent(this, LanguageActivity.class));
+        String host = "10.8.9.6";
+        int errorCode = 8899;
+        String description = "一个很严重的错误";
+        TextView textView = findViewById(R.id.tv_string);
+//        String text = String.format(Locale.getDefault(), "无法打开网页，因为%s暂时无法连接。(%d)\n\n详情:%s", host, errorCode, description);
+        String text = String.format(Locale.getDefault(), getString(R.string.reason), host, errorCode, description);
+        textView.setText(text);
     }
 }

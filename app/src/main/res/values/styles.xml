@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--   cordova'项目 //为了适配来着-->
+    <style name="CustomDialogTheme" parent="Theme.AppCompat.Dialog">
+
+    </style>
+</resources>

@@ -47,7 +47,7 @@ dependencies {
     testImplementation 'org.json:json:20240303' //[https://mvnrepository.com/artifact/org.json/json/20240303]
 
 //    implementation project(':jpush')
-
+    implementation 'com.qmuiteam:qmui:2.1.0'
     implementation project(':firebasepush')
 
 }

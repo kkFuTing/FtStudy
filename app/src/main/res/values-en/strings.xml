@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reason">open failed，because%s can not link。(%d)\n\nall:%s</string>
+    <string name="string_id_setting_test">stringID Indicates the language setting</string>
+    <string name="landscape_tip">landscape</string>
+    <string name="language_setting_en">setting to en</string>
+    <string name="language_setting_cn">setting to ch</string>
+    <string name="vertical_tip">vertical</string>
+    <string name="language_vertical">click go to vertical</string>
+    <string name="language_click_sw_v_l">click switch to landscape or vertical</string>
+    <string name="language_go_landscape">click go to landscape</string>
+
+</resources>
