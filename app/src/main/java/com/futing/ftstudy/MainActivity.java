@@ -23,6 +23,7 @@ import com.example.firebasepush.FCMUtils;
 import com.futing.ftstudy.language.LanguageActivity;
 import com.futing.ftstudy.share.SystemShareActivity;
 import com.futing.ftstudy.utils.NetworkUtils;
+import com.futing.ftstudy.webview.WebViewActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -95,5 +96,9 @@ public class MainActivity extends AppCompatActivity {
 //        String text = String.format(Locale.getDefault(), "无法打开网页，因为%s暂时无法连接。(%d)\n\n详情:%s", host, errorCode, description);
         String text = String.format(Locale.getDefault(), getString(R.string.reason), host, errorCode, description);
         textView.setText(text);
+    }
+
+    public void btOpenWebView(View view) {
+        startActivity(new Intent(this, WebViewActivity.class));
     }
 }
