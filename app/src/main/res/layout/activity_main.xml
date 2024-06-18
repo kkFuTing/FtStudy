@@ -74,4 +74,10 @@
         android:layout_height="wrap_content"
         android:onClick="btOpenWebView"
         android:text="打开webView" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="btOpenNetMaster"
+        android:text="打开下载库" />
 </LinearLayout>

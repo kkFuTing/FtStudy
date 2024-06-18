@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.LocaleListCompat;
 
 import com.example.firebasepush.FCMUtils;
+import com.ft.netmasterlib.NetMasterActivity;
 import com.futing.ftstudy.language.LanguageActivity;
 import com.futing.ftstudy.share.SystemShareActivity;
 import com.futing.ftstudy.utils.NetworkUtils;
@@ -100,5 +101,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void btOpenWebView(View view) {
         startActivity(new Intent(this, WebViewActivity.class));
+    }
+
+    public void btOpenNetMaster(View view) {
+        startActivity(new Intent(this, NetMasterActivity.class));
     }
 }

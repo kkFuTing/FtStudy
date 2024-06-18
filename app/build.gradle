@@ -49,5 +49,6 @@ dependencies {
 //    implementation project(':jpush')
     implementation 'com.qmuiteam:qmui:2.1.0'
     implementation project(':firebasepush')
+    implementation project(':netmasterlib')
 
 }

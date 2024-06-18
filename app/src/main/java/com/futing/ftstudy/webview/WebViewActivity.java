@@ -14,6 +14,7 @@ import android.webkit.DownloadListener;
 import android.webkit.MimeTypeMap;
 import android.webkit.URLUtil;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import androidx.core.content.FileProvider;
 
 import com.futing.ftstudy.BuildConfig;
 import com.futing.ftstudy.R;
+import com.futing.ftstudy.utils.FileUtil;
 
 import java.io.File;
 
@@ -46,108 +48,57 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_webview);
 
         webView = findViewById(R.id.webview);
-        fileInfoLayout = findViewById(R.id.file_info_layout);
-        fileNameView = findViewById(R.id.file_name);
-        fileSizeView = findViewById(R.id.file_size);
-        downloadButton = findViewById(R.id.download_button);
-
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                String url = request.getUrl().toString();
-                if (url.endsWith(".rar") || url.endsWith(".zip")) {
-                    downloadUrl = url;
-                    downloadFileName = URLUtil.guessFileName(url, null, null);
-                    showFileInfo(downloadFileName, "26MB");
-                    return true;
-                }
-                return false;
-            }
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.endsWith(".rar") || url.endsWith(".zip")) {
-                    downloadUrl = url;
-                    downloadFileName = URLUtil.guessFileName(url, null, null);
-                    showFileInfo(downloadFileName, "26MB");
-                    return true;
-                }
-                return false;
-            }
-        });
-
+        webView.setWebViewClient(new WebViewClient());
+        //单纯设置不生效
+        modifyWebSettings(webView);
         webView.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-                downloadFile(url);
+                //进行下载处理，跳转浏览器
+                //todo
+//                Uri uri = Uri.parse(url);
+//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                startActivity(intent);
+//
+                //调用系统下载方法
+//                String fileName = URLUtil.guessFileName(url, contentDisposition, mimetype);
+
+
+                // 提取文件名
+                String fileName = FileUtil.extractFileNameFromContentDisposition(contentDisposition);
+                if (fileName == null) {
+                    fileName = URLUtil.guessFileName(url, contentDisposition, mimetype);
+                }
+
+                Intent intent = new Intent(WebViewActivity.this, DownloadActivity.class);
+                intent.putExtra("download_url", url);
+                intent.putExtra("file_name", fileName);
+                intent.putExtra("file_size", formatFileSize(contentLength));
+                intent.putExtra("mimeType", mimetype);
+                startActivity(intent);
             }
         });
 
-//        webView.loadUrl("https://www.example.com");
-        // 加载本地的 index.html
         webView.loadUrl("file:///android_asset/index.html");
-
-
     }
-
-    private void showFileInfo(String fileName, String fileSize) {
-        webView.setVisibility(View.GONE);
-        fileInfoLayout.setVisibility(View.VISIBLE);
-        fileNameView.setText(fileName);
-        fileSizeView.setText(fileSize);
-        downloadButton.setText("下载文件");
-        downloadButton.setEnabled(true);
+    private  void modifyWebSettings(WebView appView) {
+        WebSettings settings = appView.getSettings();
+        //允许放大
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setDisplayZoomControls(false);
+        // 禁用默认的放大行为
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
     }
-
-    private void downloadFile(String url) {
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-
-        String fileName = URLUtil.guessFileName(url, null, null);
-        request.addRequestHeader("cookie", CookieManager.getInstance().getCookie(url));
-        request.addRequestHeader("User-Agent", System.getProperty("http.agent"));
-        request.setTitle(fileName);
-        request.setDescription("Downloading file...");
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-
-        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        if (downloadManager != null) {
-            downloadManager.enqueue(request);
-            downloadButton.setText("下载中...");
-            downloadButton.setEnabled(false);
-
-            // 监听下载完成
-            registerReceiver(new DownloadCompleteReceiver(fileName), new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+    private String formatFileSize(long size) {
+        if (size >= 1024 * 1024) {
+            return String.format("%.1f MB", size / (1024.0 * 1024.0));
+        } else if (size >= 1024) {
+            return String.format("%.1f KB", size / 1024.0);
         } else {
-            Toast.makeText(WebViewActivity.this, "Download manager is not available", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private class DownloadCompleteReceiver extends BroadcastReceiver {
-        private String fileName;
-
-        public DownloadCompleteReceiver(String fileName) {
-            this.fileName = fileName;
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            downloadButton.setText("用其他应用打开");
-            downloadButton.setEnabled(true);
-            downloadButton.setOnClickListener(v -> {
-                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
-                Uri fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
-                Intent openFileIntent = new Intent(Intent.ACTION_VIEW);
-                openFileIntent.setDataAndType(fileUri, getMimeType(file.getAbsolutePath()));
-                openFileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                startActivity(openFileIntent);
-            });
-        }
-
-        private String getMimeType(String path) {
-            String extension = MimeTypeMap.getFileExtensionFromUrl(path);
-            return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+            return size + " B";
         }
     }
 }
