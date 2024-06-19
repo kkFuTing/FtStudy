@@ -90,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void bt_string_id_setting(View view) {
         startActivity(new Intent(this, LanguageActivity.class));
-        String host = "10.8.9.6";
-        int errorCode = 8899;
+        String host = "10.2.9.6";
+        int errorCode = 6688;
         String description = "一个很严重的错误";
         TextView textView = findViewById(R.id.tv_string);
 //        String text = String.format(Locale.getDefault(), "无法打开网页，因为%s暂时无法连接。(%d)\n\n详情:%s", host, errorCode, description);
