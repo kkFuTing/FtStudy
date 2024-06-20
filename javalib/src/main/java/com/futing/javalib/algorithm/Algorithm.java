@@ -46,6 +46,65 @@ public class Algorithm {
     }
 
     /**
+     * 21. 合并两个有序链表
+     *
+     * @see <a href="https://leetcode.cn/problems/merge-two-sorted-lists/""></a>
+     * 2024/06/19 10:35-10：43 13 参照题解
+     */
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode resultNode = new ListNode();
+        // 2024/06/19 10:35-10：43 13 参照题解
+        ListNode headNode = resultNode;
+        while (list1 != null && list2 != null) {
+            if (list1.val <= list2.val) {
+                resultNode.next = list1;
+                list1 = list1.next;
+            }else {
+                resultNode.next = list2;
+                list2 = list2.next;
+            }
+
+            resultNode = resultNode.next;
+        }
+        resultNode.next = list1 == null ? list2 : list1;
+
+        return headNode.next;
+    }
+    /**
+     * 21. 合并两个有序链表
+     *
+     * @see <a href="https://leetcode.cn/problems/merge-two-sorted-lists/""></a>
+     * 2024/06/19 10:12-10：35 23 自己实现
+     * 看了下题解，和题解的迭代思路大致是一致的，题解阀门更精简，只剩一个不为空的时候不需要遍历了直接拼接
+     */
+    public ListNode mergeTwoLists1(ListNode list1, ListNode list2) {
+        ListNode resultNode = new ListNode();
+        //调试之后发现少加了这里
+        ListNode headNode = resultNode;
+        while (list1 != null || list2 != null) {
+            int va1 = Integer.MAX_VALUE;
+            int va2= Integer.MAX_VALUE;
+            if (list1 != null) {
+                va1 = list1.val;
+            }
+            if (list2 != null) {
+                va2 = list2.val;
+            }
+            if (va1 <= va2) {
+                list1 = list1.next;
+            } else {
+                list2 = list2.next;
+                va1 = va2;
+            }
+            resultNode.next = new ListNode(va1, null);
+            //调试之后发现少加了这里
+            resultNode = resultNode.next;
+        }
+
+        return headNode.next;
+    }
+
+    /**
      * 20. 有效的括号
      *
      * @see <a href="https://leetcode.cn/problems/valid-parentheses/"></a>
