@@ -46,6 +46,86 @@ public class Algorithm {
     }
 
     /**
+     * 23. 合并 K 个升序链表 hard
+     *
+     * @see <a href="https://leetcode.cn/problems/merge-k-sorted-lists/"></a>
+     * 2024/06/21
+     * 10:09-10:10 没思路
+     * 10：10 -10:18 看题解
+     * 10:18-10:25 7min 实现就简单的题解
+     * 10：25-10：39 14 调试
+     * 10：39-10：46看了分治合并，没看懂。
+     */
+
+    //参照题解一就最简单的实现
+    public ListNode mergeKLists(ListNode[] lists) {
+        ListNode resultNode = null;
+        for (int i = 0; i < lists.length; i++) {
+            resultNode = mergeTwoList(resultNode, lists[i]);
+        }
+
+        return resultNode;
+    }
+
+    private ListNode mergeTwoList(ListNode list1, ListNode list2) {
+        ListNode resultList = new ListNode();
+        ListNode headNode = resultList;
+        while (list1 != null && list2 != null) {
+            if (list1.val <= list2.val) {
+                resultList.next = list1;
+                list1 = list1.next;
+            } else {
+                resultList.next = list2;
+                list2 = list2.next;
+            }
+            resultList = resultList.next;
+        }
+
+        resultList.next = list1 == null ? list2 : list1;
+        return headNode.next;
+    }
+
+    /**
+     * 22. 括号生成
+     * https://leetcode.cn/problems/generate-parentheses/
+     * 2024/06/20
+     * 10:01-10:07 想了下没思路
+     * 10:07-10:28     看题解，发现刚自己连暴力法都做不出来 ，研究了官方题解回溯
+     * 10:29-41  12min写和调试（出错了）
+     */
+
+    //参照官方题解
+    public List<String> generateParenthesis(int n) {
+        List<String> ans = new ArrayList<>();
+        backParenthesis(ans, new StringBuilder(), 0, 0, n);
+
+        return ans;
+
+    }
+
+    private void backParenthesis(List<String> ans, StringBuilder cureStr, int open, int close, int n) {
+        if (cureStr.length() == n * 2) {
+            ans.add(cureStr.toString());
+            //出错点 未写return
+            return;
+        }
+
+        if (open < n) {
+            cureStr.append("(");
+            backParenthesis(ans, cureStr, open + 1, close, n);
+            //关键思路点，脑子总无法理解回溯~
+            cureStr.deleteCharAt(cureStr.length() - 1);
+        }
+
+        //出错点 close < open 我写错成open < n
+        if (close < open) {
+            cureStr.append(")");
+            backParenthesis(ans, cureStr, open, close + 1, n);
+            cureStr.deleteCharAt(cureStr.length() - 1);
+        }
+    }
+
+    /**
      * 21. 合并两个有序链表
      *
      * @see <a href="https://leetcode.cn/problems/merge-two-sorted-lists/""></a>
@@ -59,7 +139,7 @@ public class Algorithm {
             if (list1.val <= list2.val) {
                 resultNode.next = list1;
                 list1 = list1.next;
-            }else {
+            } else {
                 resultNode.next = list2;
                 list2 = list2.next;
             }
@@ -70,6 +150,7 @@ public class Algorithm {
 
         return headNode.next;
     }
+
     /**
      * 21. 合并两个有序链表
      *
@@ -83,7 +164,7 @@ public class Algorithm {
         ListNode headNode = resultNode;
         while (list1 != null || list2 != null) {
             int va1 = Integer.MAX_VALUE;
-            int va2= Integer.MAX_VALUE;
+            int va2 = Integer.MAX_VALUE;
             if (list1 != null) {
                 va1 = list1.val;
             }
