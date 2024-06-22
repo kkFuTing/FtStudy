@@ -46,6 +46,38 @@ public class Algorithm {
     }
 
     /**
+     * 24. 两两交换链表中的节点
+     * @see <a href="https://leetcode.cn/problems/swap-nodes-in-pairs/"></a>
+     * 2024/06/22
+     * 10：05-10:56  未看题解自己实现，及调试
+     * 10：56-11：04 优化代码，详看注释粗处，以及看了下题解，和官方题解的迭代思路是一致的
+     */
+    public ListNode swapPairs(ListNode head) {
+        ListNode resultNode = new ListNode();
+        ListNode preNode = resultNode;
+
+        while (head != null && head.next != null) {
+            ListNode aNode = head;
+            ListNode bNode = head.next;
+            head = head.next.next;
+
+            resultNode.next = bNode;
+//            resultNode = resultNode.next;
+//            resultNode.next = aNode;
+//              resultNode = resultNode.next.
+//            这意味着你并没有移动resultNode的指针，而是直接修改了resultNode的下一个节点的next指针。
+            resultNode.next.next = aNode;
+            //所以要在此处移动
+            resultNode = resultNode.next.next;
+        }
+
+        if (resultNode != null) {
+            resultNode.next = head;
+        }
+        return preNode.next;
+    }
+
+    /**
      * 23. 合并 K 个升序链表 hard
      *
      * @see <a href="https://leetcode.cn/problems/merge-k-sorted-lists/"></a>
