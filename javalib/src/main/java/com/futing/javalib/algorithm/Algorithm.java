@@ -46,7 +46,138 @@ public class Algorithm {
     }
 
     /**
+     * 26. 删除有序数组中的重复项
+     *
+     * @param nums
+     * @return
+     * @see <a href="https://leetcode.cn/problems/remove-duplicates-from-sorted-array/"></a>
+     * 2024/06/25 11：09 -11: 30 看了题解 快慢双指针
+     */
+    //参看题解
+    public int removeDuplicates(int[] nums) {
+        int n = nums.length;
+        if (n <= 1) {
+            return n;
+        }
+        int slow = 1;
+        int fast = 1;
+        while (fast < n) {
+            if (nums[fast] != nums[fast-1]) {
+                nums[slow] = nums[fast];
+                slow++;
+            }
+            fast++;
+        }
+        return slow;
+    }
+
+
+    /**
+     * 26. 删除有序数组中的重复项
+     *
+     * @param nums
+     * @return
+     * @see <a href="https://leetcode.cn/problems/remove-duplicates-from-sorted-array/"></a>
+     * 2024/06/25 11：05 -11:09 自己实现，优化前一个
+     */
+    //自己实现
+    public int removeDuplicates2(int[] nums) {
+        int k = 0;
+        ArrayList<Integer> integers = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            int num = nums[i];
+            if (integers.contains(num)) {
+                continue;
+            }
+            integers.add(num);
+            nums[k] = num;
+            k++;
+
+        }
+        return integers.size();
+    }
+
+
+    /**
+     * 26. 删除有序数组中的重复项
+     *
+     * @see <a href="https://leetcode.cn/problems/remove-duplicates-from-sorted-array/"></a>
+     * 2024/06/25 10:50-11：05 自己实现，但是感觉解法不好
+     */
+    public int removeDuplicates1(int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        ArrayList<Integer> integers = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            int num = nums[i];
+            if (integers.contains(num)) {
+                continue;
+            }
+
+            integers.add(num);
+            map.put(i, num);
+        }
+
+        int k = 0;
+        for (int i = 0; i < nums.length; i++) {
+            Integer value = map.get(i);
+            if (value == null) {
+                continue;
+            }
+            nums[k] = value;
+            k++;
+        }
+        return integers.size();
+    }
+
+    /**
+     * 25. K 个一组翻转链表 hard
+     *
+     * @see <a href="https://leetcode.cn/problems/reverse-nodes-in-k-group/"></a>
+     * * 2024/06/24
+     * 11：31-..
+     * 2024/06/25
+     * 9:53-10:45看题解边看边实现的，（没办法看完自己写出来，基本等于抄答案了，只是大意理解了思路）
+     */
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode hair = new ListNode();
+        hair.next = head;
+        ListNode pre = hair;
+        while (head != null) {
+            ListNode tail = pre;
+            for (int i = 0; i < k; i++) {
+                tail = tail.next;
+                if (tail == null) {
+                    return hair.next;
+                }
+            }
+
+            ListNode next = tail.next;
+            ListNode[] listNodes = reverseNode(head, tail);
+            head = listNodes[0];
+            tail = listNodes[1];
+            pre.next = head;
+            tail.next = next;
+            pre = tail;
+            head = tail.next;
+        }
+        return hair.next;
+    }
+
+    private ListNode[] reverseNode(ListNode head, ListNode tail) {
+        ListNode pre = tail.next;
+        ListNode p = head;
+        while (pre != tail) {
+            ListNode next = p.next;
+            p.next = pre;
+            pre = p;
+            p = next;
+        }
+        return new ListNode[]{tail, head};
+    }
+
+    /**
      * 24. 两两交换链表中的节点
+     *
      * @see <a href="https://leetcode.cn/problems/swap-nodes-in-pairs/"></a>
      * 2024/06/22
      * 10：05-10:56  未看题解自己实现，及调试
