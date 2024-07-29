@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -105,5 +106,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void btOpenNetMaster(View view) {
         startActivity(new Intent(this, NetMasterActivity.class));
+
+
     }
+
 }

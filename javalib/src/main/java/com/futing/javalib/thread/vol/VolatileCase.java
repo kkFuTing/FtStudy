@@ -5,6 +5,7 @@ package com.futing.javalib.thread.vol;
  */
 public class VolatileCase {
 
+    // TODO: 2024/7/3  + volatile 或者不加volatile观察变化
     private volatile static boolean ready;
     private volatile static int number;
 

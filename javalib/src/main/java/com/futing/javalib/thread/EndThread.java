@@ -25,9 +25,9 @@ public class EndThread {
             super.run();
             String threadName = Thread.currentThread().getName();
             System.out.println(threadName + "interrupt flag =" + isInterrupted());
-//            while (!Thread.currentThread().isInterrupted()) {
-            while (!isInterrupted()) {
-//            while (!Thread.interrupted()) { （静态）
+            while (!Thread.currentThread().isInterrupted()) { //获取当前执行这一堆的代码的线程中断
+//            while (!isInterrupted()) {
+//            while (!Thread.interrupted()) { //用的不多（静态interrupted方法 返回也是Boolean值，也是检查当前中断为是不是true，但是执行该方法后会清除中断未标识，isInterrupted() 由true改成false）
 //            while (true) {
                 System.out.println(threadName + "is running");
                 System.out.println(threadName + "inner interrupt flag=" + isInterrupted());

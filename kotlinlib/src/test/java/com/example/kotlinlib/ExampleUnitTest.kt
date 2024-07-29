@@ -13,5 +13,16 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+        mains()
     }
+
+    fun mains(){
+        val r1 : Int = "Derry".run {
+            1
+        }
+
+        println(r1)
+
+    }
+
 }

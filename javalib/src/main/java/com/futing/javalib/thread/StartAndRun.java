@@ -8,6 +8,7 @@ public class StartAndRun {
         @Override
         public void run() {
             super.run();
+            //可以看做普通的方法调用
             int i =100;
             while (i > 0) {
                 try {
@@ -23,9 +24,10 @@ public class StartAndRun {
     public static void main(String[] args) {
         ThreadRun threadRun = new ThreadRun();
         threadRun.setName("threadRun");
-        threadRun.start(); //threadRun子线程
+//        threadRun.start(); //threadRun子线程
+
 //        threadRun.start(); //threadRun子线程 无法连续开启两个start
-//        threadRun.run(); //主线程 run可以当一个普通的方法
+        threadRun.run(); //主线程 run可以当一个普通的方法
     }
 
 }

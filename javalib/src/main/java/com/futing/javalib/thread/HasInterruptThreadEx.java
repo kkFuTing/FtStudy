@@ -33,10 +33,10 @@ public class HasInterruptThreadEx {
                     //抛出中断异常后，会标志位 会由true改成false
                     System.out.println(Thread.currentThread().getName() + ": interrupt flag is /" + isInterrupted());
                     //修改为false 是为了 给我们时间释放资源，再决定是否中断
-                    interrupt();//需要手动再调用一次中断才可以中断
+                    interrupt();//需要手动再调用一次中断才可以中断 （不调用的话，while会继续执行）
                     e.printStackTrace();
                 }
-                System.out.println(threadName + "interrupt flag = " + isInterrupted());
+                System.out.println(threadName + "out interrupt flag = " + isInterrupted());
             }
         }
 

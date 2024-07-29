@@ -22,11 +22,11 @@ public class TestIntegerSyn {
 
         @Override
         public void run() {
-            synchronized (o) {
+            synchronized (o) {//可以锁住，因为o不会变化
 //            synchronized (this) {
 //            synchronized (i) {//锁不住，因为i会改变。
                 String name = Thread.currentThread().getName();
-                System.out.println(name + ":i++前 ==" + i + "==@" + System.identityHashCode(i));
+                System.out.println(name + ":i++前 【" + i + "】==@" + System.identityHashCode(i));
 
                 i++;
                 System.out.println(name + ":i==" + i + "==@" + System.identityHashCode(i));

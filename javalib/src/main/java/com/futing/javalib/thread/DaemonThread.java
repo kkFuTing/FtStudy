@@ -17,6 +17,7 @@ public class DaemonThread {
                 System.out.println("interrupt flag="+isInterrupted());
             } finally {
 
+                //守护线程中finally不一定起作用
                 //守护线程中打印finally 不一定执行，概率 看cpu有没有预留时间处理
                 System.out.println("finally");
             }
