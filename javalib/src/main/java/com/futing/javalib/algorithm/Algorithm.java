@@ -46,6 +46,61 @@ public class Algorithm {
         isValid("()");
     }
 
+
+    /**
+     * 27. 移除元素
+     *
+     * @see <a href="https://leetcode.cn/problems/remove-element/"></a>
+     * 官方题解 ：双指针
+     */
+    public int removeElement(int[] nums, int val) {
+        int left = 0;
+        int right = nums.length;
+        while (left < right) {
+            if (nums[left] == val) {
+                nums[left] = nums[right - 1];
+                right--;
+            } else {
+                left++;
+            }
+        }
+        return left;
+    }
+
+    /**
+     * 27. 移除元素
+     *
+     * @see <a href="https://leetcode.cn/problems/remove-element/"></a>
+     * 自己调试实现
+     */
+    public int removeElement1(int[] nums, int val) {
+        int length = nums.length;
+        int index = length - 1;
+        int resultLen = 0;
+        for (int i = 0; i < length; i++) {
+            int num = nums[i];
+            if (num != val) {
+                resultLen++;
+                continue;
+            }
+            while (nums[index] == val && index > 0) {
+                index--;
+            }
+
+            if (i >= index) {
+                break;
+            }
+
+            int temp = nums[index];
+            nums[i] = temp;
+            nums[index] = val;
+            index--;
+            resultLen++;
+        }
+
+        return resultLen;
+    }
+
     /**
      * 26. 删除有序数组中的重复项
      *
@@ -63,7 +118,7 @@ public class Algorithm {
         int slow = 1;
         int fast = 1;
         while (fast < n) {
-            if (nums[fast] != nums[fast-1]) {
+            if (nums[fast] != nums[fast - 1]) {
                 nums[slow] = nums[fast];
                 slow++;
             }
@@ -1623,7 +1678,7 @@ public class Algorithm {
 
     //     Definition for singly-linked list.
     public class ListNode {
-        int      val;
+        int val;
         ListNode next;
 
         ListNode() {
