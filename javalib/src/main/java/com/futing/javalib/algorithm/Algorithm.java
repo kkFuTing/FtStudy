@@ -46,6 +46,80 @@ public class Algorithm {
         isValid("()");
     }
 
+    /**
+     * 30困难跳过
+     * 2024/08/01
+     * 31. 下一个排列
+     * https://leetcode.cn/problems/next-permutation/
+     * 参考题解实现，
+     */
+    public void nextPermutation(int[] nums) {
+        //找比i-1位置小的数
+        int i = nums.length - 2;
+        while (i >= 0 && nums[i] >= nums[i + 1]) {
+            i--;
+        }
+
+        //找比较小的位置，找到较大的位置
+        if (i >= 0) {
+            int j = nums.length - 1;
+            while (j >= 0 && nums[j] <= nums[i]) {
+                j--;
+            }
+
+            swap(i, j, nums);
+        }
+
+        reverseNum(nums, i + 1);
+    }
+
+    private void reverseNum(int[] nums, int start) {
+        int left = start, right = nums.length - 1;
+        while (left < right) {
+            swap(left, right, nums);
+            left++;
+            right--;
+        }
+
+    }
+
+    private void swap(int i, int j, int[] nums) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+
+    /**
+     * 2024/07/31
+     * 28. 找出字符串中第一个匹配项的下标
+     *
+     * @param haystack
+     * @param needle
+     * @return
+     * @see <a hrft="https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/description/"></a>
+     * 直接参看了官方题解的暴力解法
+     * (有方法二：Knuth-Morris-Pratt 算法 没看，有时间再细细研究了)
+     */
+    public int strStr(String haystack, String needle) {
+        int n = haystack.length();
+        int m = needle.length();
+        for (int i = 0; i + m <= n; i++) {
+            boolean flag = true;
+            for (int j = 0; j < m; j++) {
+                if (haystack.charAt(i + j) != needle.charAt(j)) {
+                    if (flag) {
+                        flag = false;
+                    }
+                }
+            }
+            if (flag) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
     /**
      * 27. 移除元素
