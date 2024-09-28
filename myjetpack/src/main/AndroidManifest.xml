@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 同学们：这里加入网络的权限 sunflower加的-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.DayNight">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
+        </activity>
+
+        <activity
+            android:name=".livedatademo.NameActivity"
+            android:exported="true"></activity>
+
+        <activity
+            android:name=".livedatademo.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".livedatademo.TestLiveDataBusActivity" />
+
+        <activity android:name=".databing.MainActivity" />
+
+        <activity android:name=".roomdemo01.MainActivity" />
+        <activity android:name=".roomdemo02.MainActivity" />
+
+        <activity android:name=".lsn4_navigationdemo.MainActivity" />
+        <activity android:name=".pagingproject.MainActivity" />
+        <activity android:name=".use_paging.MainActivity" />
+        <activity android:name=".use_paging2.MainActivity" />
+        <activity android:name=".use_paging_db.MainActivity" />
+
+        <activity android:name=".workmanagersimple.MainActivity" />
+
+
+        <activity android:name=".sunflower.GardenActivity"
+
+            android:theme="@style/AppTheme.NoActionBar"/>
+    </application>
+
+</manifest>

@@ -1,0 +1,73 @@
+RxJava OkHttp ... (
+    1.只看目标，把主线打通，不看细节
+    2.稍微看细节
+    3.再稍微看一点细节
+)
+
+【数据的初始化】
+入手，数据源（PagedList==列表显示的数据）
+    this.listLiveData = new LivePagedListBuilder<Integer, Student>(factory, Flag.SIZE).build();
+        LiveData<PagedList<Value>>create函数
+            new PagedList.Builder<>().build()
+                PagedList.create函数
+                    f (dataSource.isContiguous() || !config.enablePlaceholders) 最终的返回的 PagedList 的 子类
+                        又重新看，build()
+                            new ComputableLiveData() 构造函数
+                                mExecutor.execute(mRefreshRunnable);
+                                    分析mRefreshRunnable
+                                        public void run() {
+                                            value = compute();
+                                             mLiveData.postValue(value);
+                                        }
+                                            V 抽象的 compute();
+                                                {
+                                                    this.mDataSource = dataSourceFactory.create();
+                                                    this.mDataSource.addInvalidatedCallback(this.mCallback);
+                                                    xxx.build();
+                                                }
+
+
+【数据的加载】
+ContiguousPagedList构造函数
+    第一点：创建PagedStorage实例，主要根据滑动的位置显示是否要继续加载数据
+    第二点：调用DataSource.dispatchLoadInitial方法，此时使用的时ItermKeyDataSource的dispatchLoadInitial方法
+        dispatchLoadInitial
+             mSource.dispatchLoadInitial(
+                loadInitial(params, callback);
+                    我们自己写的 loadInitial ---> 拿到数据
+                        ....
+
+【数据的显示】
+LoadInitialCallback callback.onResult
+    onResult
+
+
+
+
+
+最终的父类 PagedList
+if(true) {
+    ContiguousDataSource
+        ItemKeyedDataSource
+        PageKeyedDataSource
+} else {
+    TiledPagedList
+}
+
+
+-----
+如果我们是继承 PositionalDataSource 数据源三
+    return ContiguousPagedList extends PagedList
+
+如果我们是继承 PositionalDataSource 数据源一
+    return 其他的 extends PagedList
+
+
+-----
+史上最全使用
+数据源 第三种（目前只使用了这种）
+ItemKeyedDataSource
+PageKeyedDataSource
+Room
+
+

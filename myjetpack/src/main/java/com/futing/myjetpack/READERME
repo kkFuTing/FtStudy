@@ -1,0 +1,27 @@
+
+lifecycle//1  生命周期的监听  (lifecycle的使用)
+livedata //2 livedata使用步骤
+livedata //3 真实开发livedata使用步骤
+dataBinding//4 使用dataBinding 步骤一： 19版本之前不能适配；
+viewModel//之前 和LiveData一起使用了看2就好  (主要和LiveData与Room组合使用)
+paging//使用paging步骤
+
+
+
+第一次运行room1 我会出现如下失败； 因为此时还没有学生类 加外键约束肯定失败，Student改成@Entity  注释掉其他//@Entity(foreignKeys = @ForeignKey(entity = Address.class,parentColumns = "addressId",childColumns = "addressId"))
+ android.database.sqlite.SQLiteConstraintException: FOREIGN KEY constraint failed (code 787 SQLITE_CONSTRAINT_FOREIGNKEY)
+
+ 第一次运行room2 我会出现如下失败； (不知道是不是因为运行了1，由一样的表？？ 我协助重试就可以了)
+ Unable to start activity ComponentInfo{com.futing.myjetpack/com.futing.myjetpack.roomdemo02.MainActivity}: java.lang.IllegalStateException: A migration from 1 to 3 was required but not found. Please provide the necessary Migration path via RoomDatabase.Builder.addMigration(Migration ...) or allow for destructive migrations via one of the RoomDatabase.Builder.fallbackToDestructiveMigration* methods.
+
+
+app：第一种方式 常用方式
+
+use_paging：第二种方式
+
+use_paging2：第三种方式
+
+use_paging_db：第四种方式
+
+用百度url替换了这个
+//"imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/55/Apple_orchard_in_Tasmania.jpg"

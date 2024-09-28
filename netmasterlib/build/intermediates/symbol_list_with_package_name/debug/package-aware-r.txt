@@ -1,0 +1,5 @@
+com.ft.netmasterlib
+id bt_okGo
+id bt_okHTTP
+id main
+layout activity_netmaster

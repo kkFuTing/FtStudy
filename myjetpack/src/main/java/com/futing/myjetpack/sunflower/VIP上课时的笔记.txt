@@ -1,0 +1,135 @@
+
+
+    <!--
+       【整个项目重要点，必须要看的】
+
+       TODO 1 注意所有的引用都是单向的,尤其注意viewModel会持有repository的引用。
+       TODO 2 而对数据的操作(通过Dao的增删查改)和网络请求都是在repository中完成的。
+
+       TODO 整个项目三个重要部分：
+       1.Garden / GardenPlanting == 我的花园
+       2.Plant / PlantList == 植物 植物列表
+       3.PlantDetail == 植物详情
+
+       TODO 数据层面部分：
+       Plant数据类对应plants表
+       GardenPlanting数据类对应garden_plants表
+
+       plants表：存储了所有植物的信息
+        这里数据的获取并不是来源于网络，而是来自于事先已经创建好了的assets目录下的json数组，
+        并在数据库创建时，通过WorkManger发送这个请求，把所有Plant的信息insert到plants表中。
+
+
+
+    -->
+
+    <!-- 同学们：这里加入网络的权限 -->
+
+
+
+
+====================================
+【上节课回顾】  OK
+
+
+【上节课 末尾 讲过， 今天 再次重复讲一下，怕同学们没有听到】
+面试题：WorkManager是干嘛用的？
+答：处理非及时任务，举例子：每天同步一次数据到服务器，这种类似的需求，不是及时执行，但是又保证会执行的非及时任务。
+
+面试官 接着问：WorkManager是怎么保证，当我把APP杀掉后呢？
+答：记录用户的所有信息并全部保存到数据库，而并非保存在内存中，这样做的好处，就是持久性保存记录，所有APP被杀掉后 依然可以获取所有任务信息。
+
+简历的 专业技能：研究过JetPack的WorkManager源码。
+
+面试题：你研究过WorKManager源码，任务是怎么保证一定执行的呀？
+答：Android操作系统会在系统级别服务中，来判断用户的约束条件，当约束条件满足时就会执行任务，但是触发检测是采用广播的形式处理的，例如：网络连接成功 就触发...。
+【如果没有听到 WorkManager末尾的 面试题 ，回去看看录播  1】
+
+
+【我在看我自己的录播时，讨论区 看到有同学在问，如果一个任务正在执行中... 突然关机了】
+		// 如果一个任务正在执行中... 突然关机了
+        WorkManager.getInstance(this).enqueue();
+
+        // Checks for app force stops.
+        mWorkTaskExecutor.executeOnBackgroundThread(new ForceStopRunnable(context, this));
+
+
+
+============================================  本节课的内容 
+
+Jett老师 + 我   JetPack 各个组件库 学完了   学了库源码
+使用前面所学的库（LiveData，ViewModel，DataBinding, Nav ...，Room） 使用起来，原理已经讲过了，只使用
+
+JetPack项目实战之我的花园(第一节课)
+1.JetPack项目介绍。   【进入这个环节】
+2.JetPack项目之GardenActivity。   安卓之神：一个应用就应该一个Activity
+3.JetPack项目之nav_garden。
+4.JetPack项目之GardenFragment。
+5.JetPack项目之ViewModel/仓库层/数据库。
+
+
+GitHub：https://github.com/android/sunflower
+
+DataBinding       BindingAdaptet == app:isGone
+
+所有的布局文件 都要交给 DataBinding进行管理
+
+
+【21：25 开始上课】
+
+没有问题的同学，可以睡觉了
+
+如果学过，今天非常简单，简单都不想看
+
+难点：
+   大量使用了Nav
+   把各个库 串起来（）
+
+Nav
+
+布局（DataBinding）  Fragemnt ---- VM  ----> 仓库 ----》 ROOM（Dao）
+
+
+JetPack相关的
+DataBinding，ViewModel，Room，Navigation，LiveData，   下节课加入：WorkManager
+
+
+JetPack项目实战之详情介绍(第三节课)
+1.JetPack项目之植物列表随机查询效果。  【OK】  很多的眼睛（观察者 数据的变化）
+2.JetPack项目之PlantDetailFragment。
+3.JetPack项目之ViewModel/仓库层/数据库。
+4.JetPack项目之导航参数自动生成。
+
+Rxjava思维  KT 集合
+asynctask被协程取代了  源码被研究
+
+安卓课程评价链接：https://ke.qq.com/comment/index.html?cid=347420
+Derry xxx
+
+博客介绍此项目：
+https://blog.csdn.net/zk2000416/article/details/109109922
+
+画时序图的工具：startUML
+
+viso：非常好用
+
+Visio   processon   starUML   processon    rose
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

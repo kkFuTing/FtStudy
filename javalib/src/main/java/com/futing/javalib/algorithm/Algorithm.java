@@ -1,10 +1,10 @@
 package com.futing.javalib.algorithm;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
-
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -44,6 +44,1834 @@ public class Algorithm {
 //        intCa();
 //        romanToInt1("MCMXCIV");
         isValid("()");
+
+        countAndSay(2);
+
+        System.out.println(uniquePaths1(3, 2));
+//        System.out.println(addBinary("11", "1"));
+        System.out.println(addBinary("100", "110010"));
+        System.out.println(new int[]{0, 1});
+    }
+    // TODO: 2024/8/17 二维数组要紧急 在二维数组中，直接使用 length 属性获取的是数组的行数，在指定的索引后加上 length（如 array[0].length）表示的是该行拥有多少个元素，即列数。
+
+    /**
+     * 91. 解码方法
+     * https://leetcode.cn/problems/decode-ways/description/
+     * 2024/9/19 没什么想法-》直接看的题解【动态规划】 =》还是看不懂哦 15min
+     */
+    public int numDecodings(String s) {
+        int n = s.length();
+        int a = 0, b = 1, c = 0;
+        for (int i = 1; i <= n; i++) {
+            c = 0;
+            if (s.charAt(i - 1) != '0') {
+                c += b;
+            }
+
+            if (i > 1 && s.charAt(i - 2) != '0' && ((s.charAt(i - 2) - '0') * 10 + (s.charAt(i - 1) - '0') <= 26)) {
+                c += a;
+            }
+
+            a = b;
+            b = c;
+        }
+        return c;
+    }
+
+    /**
+     * 90. 子集 II
+     * https://leetcode.cn/problems/subsets-ii/description/
+     * 2024/9/19 补14 ---->想到递归-》但是做不出来-》看了题解还是不怎么理解 15min
+     */
+    ArrayList<List<Integer>> lists = new ArrayList<>();
+    ArrayList<Integer> t = new ArrayList<>();
+
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        dfsLL(false, nums, 0);
+
+        return lists;
+
+    }
+
+    private void dfsLL(boolean choosePre, int[] nums, int i) {
+        if (i == nums.length) {
+            lists.add(new ArrayList<Integer>(t));
+            return;
+        }
+
+        dfsLL(false, nums, i + 1);
+        if (!choosePre && i > 0 && nums[i - 1] == nums[i]) {
+            return;
+        }
+
+        t.add(nums[i]);
+        dfsLL(true, nums, i + 1);
+        t.remove(t.size() - 1);
+    }
+
+    /**
+     * 89. 格雷编码
+     * https://leetcode.cn/problems/gray-code/
+     * 2024/9/19 补13
+     * 没思路 ->看了题解归纳法，看了也不懂哦 5min
+     */
+
+    public List<Integer> grayCode(int n) {
+        List<Integer> ret = new ArrayList<>();
+        ret.add(0);
+        for (int i = 1; i <= n; i++) {
+            int m = ret.size();
+            for (int j = m - 1; j >= 0; j--) {
+                ret.add(ret.get(j) | (1 << (i - 1)));
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * 87. 扰乱字符串 hard 跳过
+     * 88. 合并两个有序数组
+     * 2024/09/12
+     * https://leetcode.cn/problems/merge-sorted-array/ 15min自己实现
+     */
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int size = n + m;
+
+        int r = size - 1;
+        int index1 = m - 1;
+        int index2 = n - 1;
+        while (r >= 0) {
+            if (index1 < 0) {
+                nums1[r] = nums2[index2];
+                index2--;
+            } else if (index2 < 0) {
+                nums1[r] = nums1[index1];
+                index1--;
+            } else if (nums1[index1] <= nums2[index2]) {
+                nums1[r] = nums2[index2];
+                index2--;
+            } else {
+                nums1[r] = nums1[index1];
+                index1--;
+            }
+            r--;
+        }
+    }
+
+
+    /**
+     * 84. 柱状图中最大的矩形 hard 跳过
+     * 85. 最大矩形  hard 跳过
+     * 86. 分隔链表
+     * 2024/09/12 补11号
+     * hhttps://leetcode.cn/problems/partition-list/
+     * 太难了，无思路。思考了8min直接看题解了， ——》模拟 15min
+     */
+    public ListNode partition(ListNode head, int x) {
+        ListNode small = new ListNode(0);
+        ListNode small1Head = small;
+        ListNode large = new ListNode(0);
+        ListNode largeHead = large;
+
+        while (head != null) {
+            if (head.val < x) {
+                small.next = head;
+                small = small.next;
+            } else {
+                large.next = head;
+                large = large.next;
+            }
+
+            head = head.next;
+        }
+        large.next = null;
+        small.next = largeHead.next;
+
+        return small1Head.next;
+
+    }
+
+    /**
+     * 83. 删除排序链表中的重复元素
+     * 2024/09/12 补10号
+     * https://leetcode.cn/problems/remove-duplicates-from-sorted-list/
+     * //自己数显6min
+     */
+
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode listNode = new ListNode(Integer.MAX_VALUE, head);
+        ListNode cur = listNode;
+        while (cur != null && cur.next != null) {
+            if (cur.val == cur.next.val) {
+                while (cur.next != null && cur.val == cur.next.val) {
+                    cur.next = cur.next.next;
+                }
+            } else {
+                cur = cur.next;
+            }
+        }
+        return listNode.next;
+
+    }
+
+
+    /**
+     * 82. 删除排序链表中的重复元素 II
+     * 2024/09/12 补9号
+     * https://leetcode.cn/problems/remove-duplicates-from-sorted-list-ii/submissions/
+     * 写过了还是写不出来，参考题解 8min
+     */
+    //写过了还是写不出来，参考题解
+    public ListNode deleteDuplicates1(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode preNode = new ListNode(Integer.MAX_VALUE, head);
+        ListNode cur = preNode;
+        while (cur != null && cur.next != null && cur.next.next != null) {
+            if (cur.next.val == cur.next.next.val) {
+                int val = cur.next.val;
+                while (cur.next != null && cur.next.val == val) {
+                    cur.next = cur.next.next;
+                }
+            } else {
+                cur = cur.next;
+            }
+
+        }
+        return preNode.next;
+    }
+
+
+    /**
+     * 81. 搜索旋转排序数组 II
+     * 2024/09/12 补9号
+     * https://leetcode.cn/problems/remove-duplicates-from-sorted-array-ii/description/
+     * 自己实现了部分用例发现不通过，最后看了题解 40min
+     */
+
+    public boolean search1(int[] nums, int target) {
+        int n = nums.length;
+        if (n == 0) {
+            return false;
+        }
+
+        if (n == 1) {
+            return nums[0] == target;
+        }
+
+//        想到的是采用二分法
+        int l = 0;
+        int r = n - 1;
+
+        while (l < r) {
+            int mid = (l + r) / 2;
+            if (target == nums[mid]) {
+                return true;
+            }
+            if (nums[l] == nums[mid] && nums[mid] == nums[r]) {
+                l++;
+                r--;
+            } else if (nums[l] <= nums[mid]) {
+                if (nums[l] <= target && target <= nums[mid]) {
+                    r = mid - 1;
+                } else {
+                    l = mid + 1;
+                }
+            } else {
+                if (nums[mid] < target && target <= nums[n - 1]) {
+                    l = mid + 1;
+                } else {
+                    r = mid - 1;
+                }
+            }
+
+        }
+        return false;
+    }
+
+    /**
+     * 80. 删除有序数组中的重复项 II
+     * 2024/09/08
+     * https://leetcode.cn/problems/remove-duplicates-from-sorted-array-ii/description/
+     */
+    public int removeDuplicates3(int[] nums) {
+        int n = nums.length;
+        if (n <= 2) {
+            return n;
+        }
+
+        int slow = 2, fast = 2;
+        while (fast < n) {
+            if (nums[fast] != nums[slow - 2]) {
+                nums[slow] = nums[fast];
+                slow++;
+            }
+            fast++;
+        }
+        return slow;
+
+    }
+
+    /**
+     * 79. 单词搜索
+     * https://leetcode.cn/problems/word-search/
+     * 2024/09/08 补昨日
+     * 直接坎坷题解； =》回溯
+     */
+//看了题解还是不太懂
+    public boolean exist(char[][] board, String word) {
+        int h = board.length;
+        int w = board[0].length;
+        boolean[][] visited = new boolean[h][w];
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                boolean flag = check(board, visited, i, j, word, 0);
+                if (flag) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean check(char[][] board, boolean[][] visited, int i, int j, String word, int cur) {
+        if (board[i][j] != word.charAt(cur)) {
+            return false;
+        } else if (cur == word.length() - 1) {
+            return true;
+        }
+
+        visited[i][j] = true;
+        int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        boolean result = false;
+        for (int[] direction : directions) {
+            int newi = i + direction[0], newj = j + direction[1];
+            if (newi >= 0 && newi < board.length && newj >= 0 && newj < board[0].length) {
+                if (!visited[newi][newj]) {
+                    boolean flag = check(board, visited, newi, newj, word, cur + 1);
+                    if (flag) {
+                        result = true;
+                        break;
+                    }
+                }
+            }
+        }
+        visited[i][j] = false;
+        return result;
+    }
+
+    /**
+     * 78. 子集
+     * https://leetcode.cn/problems/subsets/description/
+     * 2024/9/6 想到的也是递归 但是做不出来！ 看了题解（计时47min，但是根本没用到这个时间，大部分都是在玩手机呀）
+     */
+//    List<List<Integer>> ans = new ArrayList<>();
+//    List<Integer> temp = new ArrayList<>();
+    public List<List<Integer>> subsets(int[] nums) {
+        dfsC1(nums, 0);
+
+        return ans;
+    }
+
+    private void dfsC1(int[] nums, int i) {
+        if (nums.length == i) {
+            ans.add(new ArrayList<Integer>(temp));
+            return;
+        }
+
+        temp.add(nums[i]);
+        dfsC1(nums, i + 1);
+        temp.remove(temp.size() - 1);
+        dfsC1(nums, i + 1);
+    }
+
+
+    /**
+     * 76. 最小覆盖子串 hard 跳过
+     * https://leetcode.cn/problems/combinations/description/
+     * 2024/9/6 补9.5
+     * 77. 组合  想到的是递归 做了十分钟做不出来看了题解 最终15min
+     */
+
+//    List<List<Integer>> ans = new ArrayList<>();
+    List<Integer> temp = new ArrayList<>();
+
+    public List<List<Integer>> combine(int n, int k) {
+        dfsC(1, n, k);
+        return ans;
+    }
+
+    private void dfsC(int cur, int n, int k) {
+        if (temp.size() + (n - cur + 1) < k) {
+            return;
+        }
+
+
+        if (temp.size() == k) {
+            ans.add(new ArrayList<>(temp));
+            return;
+        }
+
+        temp.add(cur);
+
+        dfsC(cur + 1, n, k);
+        temp.remove(temp.size() - 1);
+        dfsC(cur + 1, n, k);
+    }
+
+    /**
+     * 75. 颜色分类
+     * https://leetcode.cn/problems/sort-colors/
+     * 2024/9/4 //题解版本 觉得写自己写的太复杂了！ 优化了自己代码未非题解  17min
+     */
+    public void sortColors(int[] nums) {
+        int n = nums.length;
+        if (n <= 1) {
+            return;
+        }
+
+        int l = 0, slowL = 0, r = n - 1;
+        while (l < r || (l <= r && nums[l] != 2)) {
+            if (nums[l] == 1) {
+                l++;
+                continue;
+            }
+
+            if (nums[l] == 0) {
+                if (l != slowL) {
+                    nums[l] = 1;
+                    nums[slowL] = 0;
+                }
+                l++;
+                slowL++;
+            } else if (nums[l] == 2) {
+                while (nums[r] == 2 && l < r) {
+                    r--;
+                }
+                if (l < r) {
+                    nums[l] = nums[r];
+                    nums[r] = 2;
+                    r--;
+                }
+            }
+        }
+
+    }
+
+    /**
+     * 75. 颜色分类
+     * https://leetcode.cn/problems/sort-colors/
+     * 2024/9/4 //未看题解 32min 有个测试用例没有通过-》41又调试了会
+     */
+    public void sortColors1(int[] nums) {
+        int n = nums.length;
+        if (n <= 1) {
+            return;
+        }
+
+        int l = 0, lFast = 0, r = n - 1;
+        while (l < r) {
+            if (nums[l] == 0) {
+                l++;
+                continue;
+            }
+
+            if (nums[l] == 1) {
+                if (lFast <= l) {
+                    lFast = l + 1;
+                }
+                while (lFast <= r && nums[lFast] != 0) {
+                    lFast++;
+                }
+                if (lFast <= r) {
+                    nums[l] = 0;
+                    nums[lFast] = 1;
+                }
+                l++;
+                continue;
+
+            }
+
+            if (nums[l] == 2) {
+                while (nums[r] == 2 && l < r) {
+                    r--;
+                }
+                if (l < r) {
+                    nums[l] = nums[r];
+                    nums[r] = 2;
+                    r--;
+                }
+            }
+        }
+
+    }
+
+
+    /**
+     * 74. 搜索二维矩阵
+     * https://leetcode.cn/problems/search-a-2d-matrix/
+     * 2024/9/3 5min未看题解-》提交了 ；  看了题解可以使用二分查找，但是我自己未做出来了；
+     */
+
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int n = matrix.length;
+        if (n < 1) {
+            return false;
+        }
+        int m = matrix[0].length;
+
+        for (int i = 0; i < n; i++) {
+            if (target > matrix[i][m - 1]) {
+                continue;
+            }
+            for (int j = 0; j < m; j++) {
+                if (matrix[i][j] == target) {
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
+    }
+
+    /**
+     * 73. 矩阵置零
+     * https://leetcode.cn/problems/set-matrix-zeroes/description/
+     * 2024/09/02 未看题解自己实现 16min
+     */
+
+//未看题解自己实现
+    public void setZeroes(int[][] matrix) {
+        int n = matrix.length;
+        if (n < 1) {
+            return;
+        }
+        int m = matrix[0].length;
+
+        int[] rows = new int[n];
+        int[] columns = new int[m];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (matrix[i][j] == 0) {
+                    rows[i] = 1;
+                    columns[j] = 1;
+                }
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (rows[i] == 1 || columns[j] == 1) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+
+// TODO: 2024/9/2 k看了题解发现下面可以优化成一个for循环
+
+//        for (int i = 0; i < n; i++) {
+//            if (rows[i] == 1) {
+//                for (int j = 0; j < m; j++) {
+//                    matrix[i][j] = 0;
+//                }
+//            }
+//        }
+//
+//        for (int j = 0; j < m; j++) {
+//            if (columns[j] == 1) {
+//                for (int k = 0; k < n; k++) {
+//                    matrix[k][j] = 0;
+//                }
+//            }
+//        }
+
+
+    /**
+     * 72. 编辑距离
+     * https://leetcode.cn/problems/edit-distance/
+     * 2024/09/02 补昨日 20min
+     */
+
+//直接看了题解都无法理解的题
+    public int minDistance(String word1, String word2) {
+        int n = word1.length();
+        int m = word2.length();
+
+        if (n * m == 0) {
+            return n + m;
+        }
+
+        int[][] dp = new int[n + 1][m + 1];
+
+        for (int i = 0; i < n + 1; i++) {
+            dp[i][0] = i;
+        }
+
+        for (int j = 0; j < m + 1; j++) {
+            dp[0][j] = j;
+        }
+
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < m + 1; j++) {
+                int left = dp[i - 1][j] + 1;
+                int down = dp[i][j - 1] + 1;
+                int left_down = dp[i - 1][j - 1];
+                if (word1.charAt(i - 1) != word2.charAt(j - 1)) {
+                    left_down += 1;
+                }
+
+                dp[i][j] = Math.min(left, Math.min(down, left_down));
+            }
+
+        }
+        return dp[n][m];
+    }
+
+    /**
+     * 71. 简化路径
+     * https://leetcode.cn/problems/simplify-path/description/
+     * 2024/08/31 //看了题解 5min
+     */
+    public String simplifyPath(String path) {
+        String[] names = path.split("/");
+        ArrayDeque<String> stack = new ArrayDeque<>();
+        for (String name : names) {
+            if ("..".equals(name)) {
+                if (!stack.isEmpty()) {
+                    stack.pollLast();
+                }
+            } else if (!name.isEmpty() && !".".equals(name)) {
+                stack.offerLast(name);
+            }
+        }
+
+        StringBuilder ans = new StringBuilder();
+        if (stack.isEmpty()) {
+            ans.append("/");
+        } else {
+            while (!stack.isEmpty()) {
+                ans.append("/");
+                ans.append(stack.pollFirst());
+            }
+        }
+
+        return ans.toString();
+    }
+
+
+    /**
+     * 70. 爬楼梯
+     * https://leetcode.cn/problems/climbing-stairs/
+     * 2024/08/30 //看了题解 5min
+     */
+    public int climbStairs(int n) {
+        int p = 0, q = 0, r = 1;
+        for (int i = 1; i <= n; i++) {
+            p = q;
+            q = r;
+            r = p + q;
+        }
+        return r;
+    }
+
+    /**
+     * 68. 文本左右对齐 hard 跳过
+     * 69. x 的平方根 easy
+     * https://leetcode.cn/problems/sqrtx/
+     * 2024/08/29
+     * 好吧想是想不出来了，直接看题解了；二分查找 8m,in
+     */
+    public int mySqrt(int x) {
+        int l = 0, r = x, ans = -1;
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            if ((long) mid * mid <= x) {
+                ans = mid;
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+        return ans;
+    }
+
+
+    /**
+     * 67. 二进制求和
+     * https://leetcode.cn/problems/add-binary/description/
+     * 2024/08/28
+     * 看题解 自己简化  q其实和官方模拟法差别不大，但是我逻辑判断 比较复杂， 改进点：关键点 逢2进1
+     * 10min
+     */
+
+    public static String addBinary(String a, String b) {
+        StringBuilder ans = new StringBuilder();
+        int n = a.length() - 1;
+        int m = b.length() - 1;
+
+        int mod = 0;
+        while (n >= 0 || m >= 0) {
+
+            int aI = n >= 0 ? a.charAt(n) - '0' : 0;
+            int bI = m >= 0 ? b.charAt(m) - '0' : 0;
+            int temp = aI + bI + mod;
+            ans.append(temp % 2);
+            mod = temp / 2;
+            n--;
+            m--;
+        }
+
+        if (mod == 1) {
+            ans.append(1);
+        }
+        return ans.reverse().toString();
+    }
+
+    /**
+     * 67. 二进制求和
+     * https://leetcode.cn/problems/add-binary/description/
+     * 2024/08/28
+     * 未看题解 62min 看似很简单，做起来真麻烦！！
+     */
+    public static String addBinary1(String a, String b) {
+        StringBuilder ans = new StringBuilder();
+        int n = a.length() - 1;
+        int m = b.length() - 1;
+
+        int mod = 0;
+        while (n >= 0 && m >= 0) {
+            int aI = a.charAt(n) - '0';
+            int bI = b.charAt(m) - '0';
+
+            if (mod == 1 && aI == 1 && bI == 1) {
+                mod = 1;
+                ans.append(1);
+            } else {
+                int temp = aI ^ bI;
+                if (mod == 1) {
+                    temp = temp ^ mod;
+                }
+                ans.append(temp);
+                if ((aI == 1 && bI == 1) || (mod == 1 && temp == 0)) {
+                    mod = 1;
+                } else {
+                    mod = 0;
+                }
+            }
+            n--;
+            m--;
+//            int cur = aC ^ bC;
+        }
+        String substring = null;
+        if (n >= 0) {
+            substring = a.substring(0, n + 1);
+        }
+        if (m >= 0) {
+            substring = b.substring(0, m + 1);
+        }
+
+
+        if (substring != null) {
+            int len = substring.length() - 1;
+            while (len >= 0) {
+                int temp = substring.charAt(len) - '0';
+                int ansTemp = temp ^ mod;
+                ans.append(ansTemp);
+                if (temp == 1 && mod == 1) {
+                    mod = 1;
+                } else {
+                    mod = 0;
+                }
+                len--;
+            }
+        }
+
+
+        if (mod == 1) {
+            ans.append(1);
+        }
+
+        StringBuilder str = new StringBuilder();
+        for (int i = ans.length() - 1; i >= 0; i--) {
+            str.append(ans.charAt(i));
+        }
+        return str.toString();
+//        return ans.toString();
+    }
+
+
+    /**
+     * 65. 有效数字 hard 跳过
+     * 66. 加一 easy
+     * https://leetcode.cn/problems/plus-one/
+     * 2024/08/27
+     * 未看题解 14min
+     */
+
+//自己实现
+    public int[] plusOne(int[] digits) {
+        int n = digits.length;
+        int mod = 0;
+        digits[n - 1] = digits[n - 1] + 1;
+        for (int i = n - 1; i >= 0; i--) {
+            int temp = digits[i] + mod;
+
+            if (temp < 10) {
+                digits[i] = temp;
+                mod = 0;
+                break;
+            }
+            digits[i] = temp % 10;
+            mod = 1;
+        }
+
+        if (mod == 0) {
+            return digits;
+        }
+        // TODO: 2024/8/27 最后mod大于1 也就是原数组已经装不下它了怎么办；
+
+        // TODO: 2024/8/27  看了题解发现这里需要优化
+        // digits 中所有的元素均为 9
+        int[] ans = new int[n + 1];
+        ans[0] = 1;
+        return ans;
+//
+//        int[] ans = new int[n + 1];
+//        ans[0] = mod;
+//        for (int i = 1; i <= n; i++) {
+//            ans[i] = digits[i - 1];
+//        }
+//        return ans;
+
+    }
+
+    /**
+     * 64. 最小路径和
+     * https://leetcode.cn/problems/minimum-path-sum/description/
+     * 2024/08/26
+     * 看题目是一点思路都没有啊：只能想到动态规划
+     * 看了题解：动态规划
+     * 19min
+     */
+
+//看了题解：动态规划
+    public int minPathSum(int[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0].length == 0) {
+            return 0;
+
+        }
+        int row = grid.length;
+        int columns = grid[0].length;
+
+        int[][] dp = new int[row][columns];
+        dp[0][0] = grid[0][0];
+        for (int i = 1; i < row; i++) {
+            dp[i][0] = dp[i - 1][0] + grid[i][0];
+        }
+
+        for (int i = 1; i < columns; i++) {
+            dp[0][i] = dp[0][i - 1] + grid[0][i];
+        }
+
+
+        for (int i = 1; i < row; i++) {
+            for (int j = 1; j < columns; j++) {
+                dp[i][j] = Math.min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+            }
+
+        }
+
+        return dp[row - 1][columns - 1];
+    }
+
+    /**
+     * 63. 不同路径 II
+     * https://leetcode.cn/problems/unique-paths-ii/
+     * 2024/08/25
+     * 看题目是一点思路都没有啊：：
+     * 看了题解：动态规划
+     * 滚动数组好难理解呀！！ 47 min
+     */
+
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int n = obstacleGrid.length;
+        int m = obstacleGrid[0].length;
+        int[] f = new int[m];
+        f[0] = obstacleGrid[0][0] == 0 ? 1 : 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (obstacleGrid[i][j] == 1) {
+                    f[j] = 0;
+                    continue;
+                }
+                if (j - 1 >= 0 && obstacleGrid[i][j - 1] == 0) {
+                    f[j] += f[j - 1];
+                }
+            }
+        }
+        return f[m - 1];
+    }
+
+
+    /**
+     * 62. 不同路径
+     * https://leetcode.cn/problems/unique-paths/description/
+     * 2024/08/24
+     * 看题解：：
+     * 竟然有的动态规划，或者组合法；
+     * 这里我看动态规划把！！  12min
+     */
+
+    public int uniquePaths(int m, int n) {
+        int[][] f = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            f[i][0] = 1;
+        }
+
+        for (int i = 0; i < n; i++) {
+            f[0][i] = 1;
+        }
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                f[i][j] = f[i - 1][j] + f[i][j - 1];
+            }
+        }
+
+        return f[m - 1][n - 1];
+    }
+
+
+    /**
+     * 62. 不同路径
+     * https://leetcode.cn/problems/unique-paths/description/
+     * 2024/08/24
+     * 看到这题，我就知道要采用递归，但是我不会呀！！！！！！！尝试下把！！！
+     * 尝试是写出来了，但没有通过所有答案，超时了  20min
+     */
+
+    public static int sum = 0;
+
+    public static int uniquePaths1(int m, int n) {
+        dfsUniquePaths(0, 0, m, n);
+        return sum;
+    }
+
+    private static void dfsUniquePaths(int row, int column, int m, int n) {
+
+        if (row == m - 1 && column == n - 1) {
+            sum++;
+            System.out.println(sum);
+            return;
+        }
+        if (row <= m - 1) {
+            dfsUniquePaths(row + 1, column, m, n);
+
+        }
+        if (column <= n - 1) {
+            dfsUniquePaths(row, column + 1, m, n);
+        }
+    }
+
+    /**
+     * 60. 排列序列 hard 跳过
+     * 61. 旋转链表
+     * https://leetcode.cn/problems/rotate-list/
+     * 2024/08/23
+     * //24min 未看题解 24min +含调试事件是34
+     * <p>
+     * 看了题解思路比我优秀很多的啊
+     */
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null || k == 0) {
+            return head;
+        }
+        ListNode temp = head;
+        ListNode edn = head;
+        // TODO: 2024/8/23 改进dian
+        int n = 0;
+        while (temp != null) {
+            edn = temp;
+            temp = temp.next;
+            n++;
+        }
+
+
+        // TODO: 2024/8/23  改进点
+        while (k > n) {
+            k = k - n;
+        }
+
+        if (k == n || n == 1) {
+            return head;
+        }
+
+        int ednN = n - k;
+
+        // TODO: 2024/8/23 改进点
+        ListNode ansHead = head;
+        while (ednN > 0 && ansHead != null) {
+            ednN--;
+            temp = ansHead;
+            ansHead = ansHead.next;
+        }
+
+        edn.next = head;
+        if (temp != null) {
+            temp.next = null;
+        }
+        return ansHead;
+    }
+
+    /**
+     * 59. 螺旋矩阵 II
+     * https://leetcode.cn/problems/spiral-matrix-ii/description/
+     * 2024/08/22
+     * //8min 看了题解2.模拟用法
+     */
+    public int[][] generateMatrix(int n) {
+        int[][] ans = new int[n][n];
+        int left = 0, top = 0, bottom = n - 1, right = n - 1;
+
+        int num = 1;
+
+        while (left <= right && top <= bottom) {
+            for (int column = left; column <= right; column++) {
+                ans[top][column] = num;
+                num++;
+            }
+
+            for (int row = top + 1; row <= bottom; row++) {
+                ans[row][right] = num;
+                num++;
+            }
+
+            if (left < right && top < bottom) {
+                for (int column = right - 1; column > left; column--) {
+                    ans[bottom][column] = num;
+                    num++;
+                }
+
+                for (int row = bottom; row > top; row--) {
+                    ans[row][left] = num;
+                    num++;
+
+                }
+            }
+
+            left++;
+            right--;
+            top++;
+            bottom--;
+        }
+
+        return ans;
+    }
+
+    /**
+     * 59. 螺旋矩阵 II
+     * https://leetcode.cn/problems/spiral-matrix-ii/description/
+     * 2024/08/22
+     * //25min 要用模拟但是写不出来
+     */
+//    模拟
+    public int[][] generateMatrix1(int n) {
+        int[][] ans = new int[n][n];
+        int left = 0, top = 0, bottom = n - 1, right = n - 1;
+        int num = 1;
+        for (int i = 0; i < ans.length; i++) {
+            left = i;
+            for (int j = i; j <= right; j++) {
+                ans[i][i] = num;
+                num++;
+            }
+
+            top = top + 1;
+            for (int k = top; k <= bottom; k++) {
+                ans[right][k] = num;
+                num++;
+            }
+
+            right = right - 1;
+            for (int r = right; r >= left; r--) {
+                ans[bottom][right] = num;
+                num++;
+            }
+
+            bottom = bottom - 1;
+            for (int l = bottom; l >= top; l--) {
+                ans[bottom][left] = num;
+                num++;
+
+            }
+
+        }
+        return ans;
+    }
+
+    /**
+     * 58. 最后一个单词的长度
+     * https://leetcode.cn/problems/length-of-last-word/
+     * 2024/08/22 周四 补周三
+     * //看错题解，是最后一个 单词的长度。  不是最长的。
+     */
+    public int lengthOfLastWord(String s) {
+        int maxLen = 0, len = s.length();
+
+        for (int i = len - 1; i >= 0; i--) {
+            char c = s.charAt(i);
+            if (c == ' ' && maxLen == 0) {
+                continue;
+            }
+            if (c == ' ') {
+                break;
+            }
+
+            maxLen++;
+        }
+
+        return maxLen;
+    }
+
+    /**
+     * 57. 插入区间
+     * https://leetcode.cn/problems/insert-interval/description/
+     * 2024/08/20 周二
+     * //看了题解，逻辑比较清晰；方法一：模拟
+     */
+//    看了题解，逻辑比较清晰；方法一：模拟
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        int newL = newInterval[0];
+        int newR = newInterval[1];
+        boolean addEnd = true;
+        List<int[]> ansList = new ArrayList<int[]>();
+
+        for (int[] interval : intervals) {
+            int L = interval[0], R = interval[1];
+            if (L > newR) {
+                //插入的素组的右边边和当前对比的元素无交集
+                //第一个
+                if (addEnd) {
+                    ansList.add(new int[]{newL, newR});
+                    addEnd = false;
+                }
+                ansList.add(interval);
+            } else if (R < newL) {
+                //插入的素组的左边和当前对比的元素无交集
+                ansList.add(interval);
+            } else {
+//                有交集,算出并集
+                newL = Math.min(L, newL);
+                newR = Math.max(R, newR);
+            }
+        }
+
+        if (addEnd) {
+            ansList.add(new int[]{newL, newR});
+        }
+
+        int[][] ans = new int[ansList.size()][2];
+        for (int i = 0; i < ansList.size(); i++) {
+            ans[i] = ansList.get(i);
+        }
+
+        return ans;
+    }
+
+    /**
+     * 57. 插入区间
+     * https://leetcode.cn/problems/insert-interval/description/
+     * 2024/08/20 周二
+     * //参照上一题加调试
+     */
+//参照上一题加调试
+    public int[][] insert1(int[][] intervals, int[] newInterval) {
+        int newL = newInterval[0];
+        int newR = newInterval[1];
+        ArrayList<int[]> merged = new ArrayList<>();
+
+        boolean addEnd = true;
+        for (int[] interval : intervals) {
+            int L = interval[0], R = interval[1];
+            if (!addEnd) {
+                if (merged.isEmpty() || merged.get(merged.size() - 1)[1] < L) {
+                    merged.add(new int[]{L, R});
+                } else {
+                    merged.get(merged.size() - 1)[1] = Math.max(merged.get(merged.size() - 1)[1], R);
+                }
+                continue;
+            }
+
+            //在左侧无交集 这里看了题解才做的出来
+            if (L > newR && addEnd) {
+                addEnd = false;
+                merged.add(new int[]{newL, newR});
+                merged.add(interval);
+                continue;
+            }
+
+            if (newL <= R && addEnd) {
+                addEnd = false;
+                newL = Math.min(newL, L);
+                newR = Math.max(newR, R);
+                merged.add(new int[]{newL, newR});
+            } else {
+                merged.add(interval);
+            }
+        }
+        if (addEnd) {
+            merged.add(newInterval);
+        }
+        return merged.toArray(new int[merged.size()][]);
+    }
+
+    /**
+     * 56. 合并区间
+     * https://leetcode.cn/problems/merge-intervals/
+     * 2024/08/20 周二 补昨日
+     * 做不出来,看了题解 排序
+     */
+//题解
+    public int[][] merge(final int[][] intervals) {
+        if (intervals.length == 0) {
+            return new int[0][2];
+        }
+
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] t1, int[] t2) {
+                return t1[0] - t2[0];
+            }
+        });
+
+        ArrayList<int[]> merged = new ArrayList<>();
+        for (int[] interval : intervals) {
+            int L = interval[0], R = interval[1];
+            if (merged.isEmpty() || merged.get(merged.size() - 1)[1] < L) {
+                merged.add(new int[]{L, R});
+            } else {
+                merged.get(merged.size() - 1)[1] = Math.max(merged.get(merged.size() - 1)[1], R);
+            }
+
+        }
+
+        return merged.toArray(new int[merged.size()][]);
+    }
+
+    /**
+     * 55. 跳跃游戏
+     * https://leetcode.cn/problems/jump-game/
+     * 2024/08/18 周天
+     * 做不出来,看了题解 贪心算法
+     */
+//题解
+    public boolean canJump(int[] nums) {
+        int n = nums.length;
+        int rightMost = 0;
+        for (int i = 0; i < n; i++) {
+            if (i <= rightMost) {
+                rightMost = Math.max(rightMost, i + nums[i]);
+                if (rightMost >= n - 1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 54. 螺旋矩阵
+     * https://leetcode.cn/problems/spiral-matrix/
+     * 2024/08/17 周六
+     * 做不出来,看了题解二 按层模拟
+     */
+//参看 题解
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> ans = new ArrayList<>();
+
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return ans;
+        }
+        int rows = matrix.length;
+        int columns = matrix[0].length;
+
+        int left = 0, right = columns - 1, top = 0, bottom = rows - 1;
+        while (left <= right && top <= bottom) {
+            for (int clounm = left; clounm <= right; clounm++) {
+                ans.add(matrix[top][clounm]);
+            }
+
+            for (int row = top + 1; row <= bottom; row++) {
+                ans.add(matrix[row][right]);
+            }
+
+            if (left < right && top < bottom) {
+                for (int column = right - 1; column > left; column--) {
+                    ans.add(matrix[bottom][column]);
+                }
+
+                for (int row = bottom; row > top; row--) {
+                    ans.add(matrix[row][left]);
+                }
+            }
+            left++;
+            right--;
+            top++;
+            bottom--;
+
+        }
+        return ans;
+    }
+
+    /**
+     * 51. N 皇后 hard 跳过
+     * 52. N 皇后 II hard 跳过
+     * 53. 最大子数组和
+     * https://leetcode.cn/problems/maximum-subarray/solutions/228009/zui-da-zi-xu-he-by-leetcode-solution/
+     * 2024/08/16 周五 补昨日
+     * 参考了题解
+     */
+    public int maxSubArray(int[] nums) {
+        int pre = 0;
+        int maxAns = nums[0];
+        for (int num : nums) {
+            pre = Math.max(pre + num, num);
+            maxAns = Math.max(pre, maxAns);
+        }
+        return maxAns;
+    }
+
+    /**
+     * 50. Pow(x, n)
+     * https://leetcode.cn/problems/powx-n/
+     * 2024/08/16 周五 补昨日
+     *
+     * @param x
+     * @param n
+     * @return //参看题解
+     */
+    public double myPow(double x, int n) {
+        long N = n;
+        return N >= 0 ? quickMul(x, N) : 1.0 / quickMul(x, -N);
+    }
+
+    public double quickMul(double x, long N) {
+        double ans = 1.0;
+        // 贡献的初始值为 x
+        double x_contribute = x;
+        // 在对 N 进行二进制拆分的同时计算答案
+        while (N > 0) {
+            if (N % 2 == 1) {
+                // 如果 N 二进制表示的最低位为 1，那么需要计入贡献
+                ans *= x_contribute;
+            }
+            // 将贡献不断地平方
+            x_contribute *= x_contribute;
+            // 舍弃 N 二进制表示的最低位，这样我们每次只要判断最低位即可
+            N /= 2;
+        }
+        return ans;
+    }
+
+    /**
+     * 50. Pow(x, n)
+     * https://leetcode.cn/problems/powx-n/
+     * 2024/08/16 周五 补昨日
+     *
+     * @param x
+     * @param n
+     * @return //未看题解，超出时间限额 1,2147483647
+     */
+    public double myPow1(double x, int n) {
+        if (n == 0) {
+            return 1;
+        }
+        if (n < 0) {
+            n = Math.abs(n);
+            x = 1 / x;
+        }
+        double sum = x;
+        for (int i = 1; i < n; i++) {
+            sum = sum * x;
+        }
+        return sum;
+    }
+
+    /**
+     * 49. 字母异位词分组
+     * https://leetcode.cn/problems/group-anagrams/description/
+     * 2024/08/14 周三
+     * 想到下面的思路了，但对于key排序有点不够清晰，所以看了题解的排序方法-
+     */
+
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String, List<String>> hashMap = new HashMap<>();
+        for (String str : strs) {
+            char[] charArray = str.toCharArray();
+            Arrays.sort(charArray);
+            String key = new String(charArray);
+            List<String> list = hashMap.getOrDefault(key, new ArrayList<String>());
+            list.add(str);
+            hashMap.put(key, list);
+        }
+
+        return new ArrayList<List<String>>(hashMap.values());
+    }
+
+    /**
+     * 48. 旋转图像
+     * https://leetcode.cn/problems/rotate-image/
+     * 2024/08/14 周三 补周二
+     *
+     * @param matrix 想了会做不出来看了官方题解二 方法二：原地旋转
+     */
+
+//想了会做不出来看了官方题解二 方法二：原地旋转
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        //行
+        for (int i = 0; i < n / 2; i++) {
+            //列
+            for (int j = 0; j < (n + 1) / 2; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[n - j - 1][i];
+                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
+                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
+                matrix[j][n - i - 1] = temp;
+            }
+        }
+    }
+
+    /**
+     * 47. 全排列 II
+     * https://leetcode.cn/problems/permutations-ii/
+     * 2024/08/14 周三 补周一
+     * 直接看了 题解，回溯方法
+     */
+
+    boolean[] vis;
+
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> perm = new ArrayList<>();
+        vis = new boolean[nums.length];
+        Arrays.sort(nums);
+        backtrack2(nums, ans, 0, perm);
+        return ans;
+    }
+
+    private void backtrack2(int[] nums, List<List<Integer>> ans, int index, List<Integer> perm) {
+        if (index == nums.length) {
+            ans.add(new ArrayList<Integer>(perm));
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (vis[i] || (i > 0 && nums[i] == nums[i - 1] && !vis[i - 1])) {
+                continue;
+            }
+
+            perm.add(nums[i]);
+            vis[i] = true;
+            backtrack2(nums, ans, index + 1, perm);
+            vis[i] = false;
+            perm.remove(index);
+        }
+    }
+
+    /**
+     * 46. 全排列
+     * https://leetcode.cn/problems/permutations/description/
+     * 2024/08/11
+     * 直接看了题解，回溯方法。
+     */
+
+//直接看了题解，回溯方法。
+    public List<List<Integer>> permute(int[] nums) {
+        ArrayList<List<Integer>> ans = new ArrayList<>();
+
+        ArrayList<Integer> output = new ArrayList<>();
+
+        for (int num : nums) {
+            output.add(num);
+        }
+
+        backtracks(nums.length, output, ans, 0);
+
+        return ans;
+    }
+
+    private void backtracks(int length, ArrayList<Integer> output, ArrayList<List<Integer>> ans, int index) {
+        //所有数都填完了
+        if (index == length) {
+            ans.add(new ArrayList<Integer>(output));
+        }
+
+        for (int i = index; i < length; i++) {
+            Collections.swap(output, index, i);
+            backtracks(length, output, ans, index + 1);
+            Collections.swap(output, i, index);
+        }
+    }
+
+    /**
+     * 44. 通配符匹配 hard 跳过
+     * 45. 跳跃游戏 II
+     * https://leetcode.cn/problems/jump-game-ii/
+     * 2024/08/11 补昨日
+     * 直接看了题解
+     */
+
+//直接看了题解
+    public int jump(int[] nums) {
+        int length = nums.length;
+        int end = 0;
+        int maxPosition = 0;
+        int steps = 0;
+        for (int i = 0; i < length - 1; i++) {
+            maxPosition = Math.max(maxPosition, i + nums[i]);
+            if (i == end) {
+                end = maxPosition;
+                steps++;
+            }
+        }
+        return steps;
+    }
+
+    /**
+     * 41. 缺失的第一个正数 hard 跳过
+     * 42. 接雨水 hard 跳过
+     * 43. 字符串相乘
+     * https://leetcode.cn/problems/multiply-strings/
+     * 2024/08/09
+     * 看了题解的做乘法
+     */
+//看了题解的做乘法
+    public String multiply(String num1, String num2) {
+        if (num1.equals("0") || num2.equals("0")) {
+            return "0";
+        }
+
+        int m = num1.length(), n = num2.length();
+        int[] ansArr = new int[m + n];
+
+        for (int i = m - 1; i >= 0; i--) {
+            //这一行是关键，没有这个知识点，就做不出来了
+            int x = num1.charAt(i) - '0';
+            for (int j = n - 1; j >= 0; j--) {
+                int y = num2.charAt(j) - '0';
+                ansArr[i + j + 1] += x * y;
+            }
+        }
+
+        //这个思维很关键
+        for (int i = m + n - 1; i > 0; i--) {
+            ansArr[i - 1] += ansArr[i] / 10;
+            ansArr[i] %= 10;
+        }
+        int index = ansArr[0] == 0 ? 1 : 0;
+        StringBuilder ans = new StringBuilder();
+        while (index < m + n) {
+            ans.append(ansArr[index]);
+            index++;
+        }
+        return ans.toString();
+    }
+
+
+    /**
+     * 40. 组合总和 II
+     * https://leetcode.cn/problems/combination-sum-ii/
+     * 2024/08/08
+     * 太难了，直接看题解了
+     * 但是还是看不懂
+     * todo 就这样吧
+     */
+
+
+    List<int[]> freq = new ArrayList<int[]>();
+    List<List<Integer>> ans = new ArrayList<>();
+    List<Integer> sequence = new ArrayList<>();
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        for (int num : candidates) {
+            int size = freq.size();
+            if (freq.isEmpty() || num != freq.get(size - 1)[0]) {
+                freq.add(new int[]{num, 1});
+            } else {
+                ++freq.get(size - 1)[1];
+            }
+        }
+
+        dfs2(0, target);
+
+        return ans;
+    }
+
+    private void dfs2(int pos, int reset) {
+        if (reset == 0) {
+            ans.add(new ArrayList<Integer>(sequence));
+            return;
+        }
+
+        if (pos == freq.size() || reset < freq.get(pos)[0]) {
+            return;
+        }
+        dfs2(pos + 1, reset);
+
+        int most = Math.min(reset / freq.get(pos)[0], freq.get(pos)[1]);
+        for (int i = 1; i <= most; ++i) {
+            sequence.add(freq.get(pos)[0]);
+            dfs2(pos + 1, reset - i * freq.get(pos)[0]);
+        }
+
+        for (int i = 1; i <= most; ++i) {
+            sequence.remove(sequence.size() - 1);
+        }
+    }
+
+
+    /**
+     * 39. 组合总和
+     * https://leetcode.cn/problems/combination-sum/
+     * 2024/08/07
+     * 没什么思路，看题解了
+     * 这类寻找所有可行解的题，我们都可以尝试用「搜索回溯」的方法
+     * 真的很难理解回溯方法
+     */
+//参看题解
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        ArrayList<Integer> combine = new ArrayList<>();
+        dfs(candidates, ans, combine, target, 0);
+
+
+        return ans;
+    }
+
+    private void dfs(int[] candidates, List<List<Integer>> ans, ArrayList<Integer> combine, int target, int index) {
+        if (index == candidates.length) {
+            return;
+        }
+
+        if (target == 0) {
+            ans.add(new ArrayList<Integer>(combine));
+            return;
+        }
+
+        dfs(candidates, ans, combine, target, index + 1);
+
+        if (target - candidates[index] >= 0) {
+            combine.add(candidates[index]);
+            dfs(candidates, ans, combine, target - candidates[index], index);
+            combine.remove(combine.size() - 1);
+        }
+    }
+
+
+    /**
+     * 37. 解数独 haed 跳过
+     * 38. 外观数列
+     * https://leetcode.cn/problems/count-and-say/
+     * 2024/08/06
+     * 先自己写了一般，又看了题解，因为一开始没有理解题解的意思，
+     * countAndSay(n) 是 countAndSay(n-1) 的行程长度编码。 这个条件要研读
+     */
+
+//先自己写了一般，又看了题解，因为一开始没有理解题解的意思，
+    public static String countAndSay(int n) {
+        String resultStr = "1";
+
+        if (n == 1) {
+            return resultStr;
+        }
+
+        for (int i = 1; i < n; i++) {
+            int left = 0, right = resultStr.length();
+            StringBuilder subStr = new StringBuilder();
+            while (left < right) {
+                int count = 1;
+                int leftNext = left + 1;
+                char curC = resultStr.charAt(left);
+                while (leftNext < right && resultStr.charAt(leftNext) == curC) {
+                    count++;
+                    leftNext++;
+                }
+                left = leftNext;
+                subStr.append(count).append(curC);
+            }
+            resultStr = subStr.toString();
+        }
+
+        return resultStr;
+    }
+
+    /**
+     * 36. 有效的数独
+     * https://leetcode.cn/problems/valid-sudoku/
+     * * 2024/08/05
+     * 做了一会做不出来，参看了题解
+     */
+
+    public boolean isValidSudoku(char[][] board) {
+        int[][] rows = new int[9][9];
+        int[][] columns = new int[9][9];
+        int[][][] boxNum = new int[3][3][9];
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                char c = board[i][j];
+                if (c != '.') {
+                    int index = c - '0' - 1;
+                    rows[i][index]++;
+                    columns[j][index]++;
+                    boxNum[i / 3][j / 3][index]++;
+                    if (rows[i][index] > 1 || columns[j][index] > 1 || boxNum[i / 3][j / 3][index] > 1) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+
+    /**
+     * 35. 搜索插入位置
+     * https://leetcode.cn/problems/search-insert-position/
+     * * 2024/08/04
+     * 未看题解,自己实现
+     * key：二分查找
+     */
+
+    public int searchInsert(int[] nums, int target) {
+        int n = nums.length;
+        if (n == 0) {
+            return 0;
+        }
+
+        int left = 0, right = n - 1;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+            if (target > nums[mid]) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return left;
+    }
+
+    /**
+     * 34. 在排序数组中查找元素的第一个和最后一个位置
+     * https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/
+     * 2024/08/03
+     * 未看题解
+     */
+
+//未看题解
+    public int[] searchRange(int[] nums, int target) {
+        int[] result = {-1, -1};
+        if (nums.length == 0) {
+            return result;
+        }
+
+        if (nums.length == 1 && nums[0] != target) {
+            return result;
+        }
+
+        int left = 0, right = nums.length - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+
+            if (nums[mid] == target) {
+                result[0] = mid;
+                result[1] = mid;
+                int midleft = mid - 1, midRigth = mid + 1;
+                while ((midleft >= left && nums[midleft] == target)) {
+                    result[0] = midleft;
+                    midleft--;
+                }
+
+                while ((midRigth <= right && nums[midRigth] == target)) {
+                    result[1] = midRigth;
+                    midRigth++;
+                }
+
+                return result;
+            }
+
+            if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+
+        }
+        return result;
+    }
+
+    /**
+     * 32. 最长有效括号 hard 跳过
+     * <p>
+     * 33.搜索旋转排序数组
+     *
+     * @see <a herf="https://leetcode.cn/problems/search-in-rotated-sorted-array/"></a>
+     * 2024/08/02
+     * 参考题解：思路二分查找
+     */
+    public int search(int[] nums, int target) {
+        int n = nums.length;
+        if (n == 0) {
+            return -1;
+        }
+        if (n == 1) {
+            return nums[0] == target ? 0 : -1;
+        }
+
+        int l = 0, r = n - 1;
+
+        while (l <= r) {
+            int mid = (l + r) / 2;
+
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            if (nums[l] <= nums[mid]) {
+                if (nums[l] <= target && target < nums[mid]) {
+                    r = mid - 1;
+                } else {
+                    l = mid + 1;
+                }
+            } else {
+                if (nums[mid] < target && target <= nums[r]) {
+                    l = mid + 1;
+                } else {
+                    r = mid - 1;
+                }
+            }
+
+
+        }
+
+        return -1;
+
     }
 
     /**
@@ -183,7 +2011,7 @@ public class Algorithm {
      * @see <a href="https://leetcode.cn/problems/remove-duplicates-from-sorted-array/"></a>
      * 2024/06/25 11：09 -11: 30 看了题解 快慢双指针
      */
-    //参看题解
+//参看题解
     public int removeDuplicates(int[] nums) {
         int n = nums.length;
         if (n <= 1) {
@@ -210,7 +2038,7 @@ public class Algorithm {
      * @see <a href="https://leetcode.cn/problems/remove-duplicates-from-sorted-array/"></a>
      * 2024/06/25 11：05 -11:09 自己实现，优化前一个
      */
-    //自己实现
+//自己实现
     public int removeDuplicates2(int[] nums) {
         int k = 0;
         ArrayList<Integer> integers = new ArrayList<>();
@@ -350,7 +2178,7 @@ public class Algorithm {
      * 10：39-10：46看了分治合并，没看懂。
      */
 
-    //参照题解一就最简单的实现
+//参照题解一就最简单的实现
     public ListNode mergeKLists(ListNode[] lists) {
         ListNode resultNode = null;
         for (int i = 0; i < lists.length; i++) {
@@ -387,7 +2215,7 @@ public class Algorithm {
      * 10:29-41  12min写和调试（出错了）
      */
 
-    //参照官方题解
+//参照官方题解
     public List<String> generateParenthesis(int n) {
         List<String> ans = new ArrayList<>();
         backParenthesis(ans, new StringBuilder(), 0, 0, n);
@@ -486,7 +2314,7 @@ public class Algorithm {
      * 2024/05/07 10：08-10:15 参看题解思路
      * 10：15-10：22 7min写完代码代码
      */
-    //参照题解实现
+//参照题解实现
     public static boolean isValid(String s) {
         //这个细节是之前未考虑到的
         if (s.length() % 2 == 1) {
@@ -524,7 +2352,7 @@ public class Algorithm {
      * 需要加map.get(peek) != null 的判断
      * 2024/05/07 9:48-10：08 30min 思路基本一样我截没有参照官方题解了
      */
-    //自己实现
+//自己实现
     public static boolean isValid1(String s) {
         Stack<Character> stack = new Stack<>();
         HashMap<Character, Character> map = new HashMap<>();
@@ -558,7 +2386,7 @@ public class Algorithm {
      * @param n
      * @return
      */
-    // 参照官方题解的双指针解题思路
+// 参照官方题解的双指针解题思路
     public ListNode removeNthFromEnd(ListNode head, int n) {
         ListNode node = new ListNode(0, head);
         ListNode first = head;
@@ -712,8 +2540,8 @@ public class Algorithm {
      * []
      * 2024/04/30
      */
-    //-2 -1 0 0 1 2
-    //自己实现
+//-2 -1 0 0 1 2
+//自己实现
     public static List<List<Integer>> fourSum1(int[] nums, int target) {
         List<List<Integer>> lists = new ArrayList<>();
         Arrays.sort(nums);
@@ -775,7 +2603,7 @@ public class Algorithm {
      * @param digits
      * @return
      */
-    //参看题解
+//参看题解
     public List<String> letterCombinations(String digits) {
         ArrayList<String> lists = new ArrayList<>();
 
@@ -859,7 +2687,7 @@ public class Algorithm {
      * @param target
      * @return
      */
-    //参看题解
+//参看题解
     public static int threeSumClosest(int[] nums, int target) {
 
         Arrays.sort(nums);
@@ -969,7 +2797,7 @@ public class Algorithm {
      * @return
      */
 
-    //参考题解思路
+//参考题解思路
     public static List<List<Integer>> threeSum(int[] nums) {
         ArrayList<List<Integer>> lists = new ArrayList<>();
         Arrays.sort(nums);
@@ -1017,7 +2845,7 @@ public class Algorithm {
      * @see <a href="https://leetcode.cn/problems/3sum/"></a>
      */
 
-    //未看题解 (超时了)
+//未看题解 (超时了)
     public List<List<Integer>> threeSum1(int[] nums) {
         List<List<Integer>> lists = new ArrayList<>();
         List<Integer> hash = new ArrayList<>();
@@ -1050,7 +2878,7 @@ public class Algorithm {
      * 题解思路
      * 2024/04/25
      */
-    //参看了题解思路
+//参看了题解思路
     public String longestCommonPrefix(String[] strs) {
         if (strs.length == 0) {
             return "";
@@ -1081,7 +2909,7 @@ public class Algorithm {
      * 2024/04/24
      * 参看了题解思路
      */
-    //自己调试
+//自己调试
     public String longestCommonPrefix1(String[] strs) {
         if (strs.length == 0) {
             return "";
@@ -1123,7 +2951,7 @@ public class Algorithm {
      * 2024/04/23
      * 参看了题解思路
      */
-    //参看了题解思路
+//参看了题解思路
     public int romanToInt(String s) {
         HashMap<Character, Integer> map = new HashMap<Character, Integer>() {
             {
@@ -1253,7 +3081,7 @@ public class Algorithm {
      * @see <a href="https://leetcode.cn/problems/container-with-most-water/description/"></a>
      * 第一步：超出时间限制 ； （未处理）
      */
-    //自己调试
+//自己调试
     public int maxArea1(int[] height) {
         int result = 0;
 
@@ -1280,7 +3108,7 @@ public class Algorithm {
      * <p>
      * 比较难 放弃了
      */
-    //自己调试实现
+//自己调试实现
     public static boolean isMatch(String s, String p) {
         int pIndex = 0;
         char preCharOfS = '0';
@@ -1365,7 +3193,7 @@ public class Algorithm {
      * @see <a href="https://leetcode.cn/problems/palindrome-number/"></a>
      */
 
-    //自己实现的
+//自己实现的
     public static boolean isPalindrome1(int x) {
         if (x < 0) {
             return false;
@@ -1475,7 +3303,7 @@ public class Algorithm {
      * @param x
      * @return 2024/04/09
      */
-    //题解
+//题解
     public int reverse1(int x) {
         if (x < 10 && x > -10) {
             return x;
@@ -1594,7 +3422,7 @@ public class Algorithm {
      * + row = Math.max(row, 0); row = Math.min(row, numRows - 1);
      * @see <a href="https://leetcode.cn/problems/zigzag-conversion/description/"></a>
      */
-    //未看题解 自己调试出来的
+//未看题解 自己调试出来的
     public static String convert(String s, int numRows) {
         //列不知道多少行才好
         char[][] dp = new char[numRows][s.length()];
@@ -1768,8 +3596,8 @@ public class Algorithm {
         }
     }
 
-    //2.两数相加
-    //https://leetcode.cn/problems/add-two-numbers/discussion/
+//2.两数相加
+//https://leetcode.cn/problems/add-two-numbers/discussion/
 
     /**
      * 2->4>3

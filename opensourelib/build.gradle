@@ -1,0 +1,109 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.futing.opensourelib'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 24
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        // 都是为了 传递给 注解处理器
+        // 在gradle文件中配置选项参数值（用于APT传参接收）
+        // 同学们注意：切记：必须写在defaultConfig节点下
+        javaCompileOptions {
+            annotationProcessorOptions {
+                // project.getName() == order
+                // this.project.getName() == order
+                // this.getProject().getName() == order
+                //先注释不知道会不会有什么问题
+//                arguments = [moduleName: project.getName(), packageNameForAPT: packageNameForAPT]
+            }
+        }
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+project.ext {
+    retrofitVersion = "2.4.0"
+    gsonVersion = "2.8.2"
+    cookieVersion = "v1.0.1"
+}
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'androidx.activity:activity:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+//    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+//    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+//    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+    // 依赖RxAndroid 2X 的依赖库 (配合使用，Android定制 代码20% ,服务器可以 不要了)
+    // 增加RxJava 2X 的依赖库 (代码80%)
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.0.7'
+
+    // OkHttp相关
+    implementation 'com.facebook.stetho:stetho:1.4.2'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.4.2'
+
+    // 网络请求相关
+    implementation "com.squareup.retrofit2:retrofit:$project.retrofitVersion"
+    implementation "com.squareup.retrofit2:retrofit-mock:$project.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$project.retrofitVersion"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+    implementation "com.squareup.retrofit2:converter-scalars:$project.retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$project.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$project.retrofitVersion"
+
+    implementation "com.google.code.gson:gson:$project.gsonVersion"
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1' // 操作功能防抖
+
+    // 让其有生命周期相关的依赖支持
+//    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
+//    implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.1'
+//    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
+
+    //暂时用不了
+//    implementation 'com.jakewharton:butterknife:8.4.0'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+
+
+    // 注解模块
+    implementation project(":arouter_annotation")
+    // 使用注解处理器
+    // 注解处理器
+    annotationProcessor project(':arouter_compiler')
+
+
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+}

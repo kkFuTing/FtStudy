@@ -4,7 +4,7 @@ package com.futing.javalib.thread.threadlocal;
  * Created by futing on 2024/3/30.
  */
 public class NOUseThreadLocal {
-    private static Integer count = new Integer(1);
+    private static Integer count = 1;
     public static class TestThread implements Runnable {
         int id;
 

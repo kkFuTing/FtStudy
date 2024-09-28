@@ -3,7 +3,7 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-//        jcenter() // Warning: this repository is going to shut down soon
+        jcenter() // Warning: this repository is going to shut down soon
     }
 }
 dependencyResolutionManagement {
@@ -23,3 +23,10 @@ include ':firebasepush'
 include ':kotlinlib'
 include ':netmasterlib'
 include ':enjoystulib'
+include ':memorylib'
+include ':opensourelib'
+include ':arouter_compiler'
+include ':arouter_annotation'
+include ':framworklib'
+include ':myjetpack'
+include ':uiapplication'

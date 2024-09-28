@@ -13,7 +13,6 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Environment;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;

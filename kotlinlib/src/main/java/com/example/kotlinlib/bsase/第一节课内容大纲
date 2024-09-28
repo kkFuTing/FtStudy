@@ -1,0 +1,24 @@
+TODO simple01 Kotlin 基础语法
+1.Var 与 Val
+2.函数
+3.字符串模板
+4.NULL检查机制
+5.区间
+
+TODO simple02 比较与数组
+1.比较两个值
+2.数组
+
+TODO simple03 条件与控制
+1.条件
+2.when运用
+
+TODO simple04 循环与标签
+1.for循环操作
+2.自带标签与系统标签
+
+TODO simple05 类与对象
+1.父类子类 与 构造函数等
+2.接口和抽象类
+3.data 与 object
+4.自己写单例

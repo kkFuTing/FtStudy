@@ -39,15 +39,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="bt_share"
-        android:text="分享">
-    </Button>
+        android:text="分享"></Button>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="bt_get_fcm_token"
-        android:text="获取FCM的令牌">
-    </Button>
+        android:text="获取FCM的令牌"></Button>
 
     <TextView
         android:id="@+id/tv_fcm"
@@ -65,8 +63,7 @@
     <TextView
         android:id="@+id/tv_string"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </TextView>
+        android:layout_height="wrap_content"></TextView>
 
 
     <Button
@@ -80,4 +77,21 @@
         android:layout_height="wrap_content"
         android:onClick="btOpenNetMaster"
         android:text="打开下载库" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="btOpenmemorylib"
+        android:text="打开memorylib" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="btOpensourelibOnclick"
+        android:text="打开Opensourelib" />
+
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

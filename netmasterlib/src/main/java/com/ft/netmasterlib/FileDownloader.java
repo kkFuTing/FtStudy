@@ -1,6 +1,11 @@
 package com.ft.netmasterlib;
 
+import androidx.annotation.NonNull;
+
+import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
+
 import okhttp3.*;
+
 import java.io.*;
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +19,36 @@ public class FileDownloader {
                 .connectTimeout(30, TimeUnit.SECONDS) // 设置连接超时时间
                 .readTimeout(30, TimeUnit.SECONDS)    // 设置读取超时时间
                 .build();
+    }
+
+    public void studyInterceptor() {
+//        HttpLoggingInterceptor
+        OkHttpClient client1 = new OkHttpClient.Builder()
+//                自定义拦截器
+                .addInterceptor(new Interceptor() {
+                    @NonNull
+                    @Override
+                    public Response intercept(@NonNull Chain chain) throws IOException {
+//                        统一添加上singn参数，处理了请求
+                        Request request = chain.request();
+                        HttpUrl build = request.url().newBuilder().addQueryParameter("sing", "xx").build();
+
+//                        如果需要处理响应
+//                        Response response = chain.proceed(request.newBuilder().url(build).build());
+                        //需要处理然后，response 替换下面的值
+//                        记得调用chain.proceed
+
+                        return chain.proceed(request.newBuilder().url(build).build());
+                    }
+
+                })
+                .connectTimeout(30, TimeUnit.SECONDS) // 设置连接超时时间
+                .readTimeout(30, TimeUnit.SECONDS)    // 设置读取超时时间
+//                .addNetworkInterceptor()
+                .build();
+
+
+//        addInterceptor和addNetworkInterceptor的区别  addNetworkInterceptor为真正发出去的请求
     }
 
     public void downloadFile(String url, String destinationPath, ProgressListener listener) {

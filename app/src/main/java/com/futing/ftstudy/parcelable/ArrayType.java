@@ -8,7 +8,7 @@ import android.util.SparseArray;
  */
 public class ArrayType {
 
-    new SparseArray<String>()
+//    new SparseArray<String>()
 
 
 
