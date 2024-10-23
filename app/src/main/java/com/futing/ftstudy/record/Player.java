@@ -80,6 +80,7 @@ public class Player implements MediaPlayer.OnCompletionListener,
             //设置媒体播放器的数据资源
             mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(), assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength());
             mediaPlayer.prepare();
+            mediaPlayer.prepareAsync();
             mediaPlayer.start();
             assetFileDescriptor.close();
         } catch (IOException e) {

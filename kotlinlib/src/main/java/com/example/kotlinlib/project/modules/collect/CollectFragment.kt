@@ -120,6 +120,7 @@ class CollectFragment : BaseFragment<CollectPresenter>(), CollectView {
         // 数据 给  recyclerView
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
         val adapter = CollectAdapter()
+
         if (null != result) {
             adapter.allStudents = result
         }

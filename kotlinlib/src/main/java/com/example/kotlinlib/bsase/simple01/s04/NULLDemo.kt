@@ -19,6 +19,11 @@ fun main() {
     // 刚那个提问的呢?
     // ?:  如果你一定要输出null  就让你  “你很牛逼”
     println(info?.length           ?: "你很牛逼")
+
+    info?.let {
+//        ...
+    }
+
 }
 
 // : Int? === 允许返回null

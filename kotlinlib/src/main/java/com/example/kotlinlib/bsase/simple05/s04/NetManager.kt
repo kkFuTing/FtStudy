@@ -14,7 +14,6 @@ class NetManager {
     companion object {
 
         // 全部都是  相当于 Java static
-
         fun getInstance() : NetManager = Holder.instance
     }
 

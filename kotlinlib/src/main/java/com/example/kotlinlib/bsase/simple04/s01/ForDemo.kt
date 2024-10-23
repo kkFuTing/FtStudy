@@ -2,7 +2,9 @@ package simple04.s01
 
 // TODO 循环 与 标签
 fun main() {
-
+    for (i in 0..10) {
+        println(i)
+    }
     // 自定义标签
     tttt@ for (i in 1..20) {
 

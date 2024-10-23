@@ -14,7 +14,7 @@ fun common() {
 
 fun main() {
 
-    name.let {  }
+    name.let { }
 
     // r == 外面那个R
     val r = common().myRun {
@@ -59,12 +59,12 @@ fun main() {
 
 // TODO m: T.() -> R
 // T.() == 给T来一个匿名函数
-fun <T, R> T.myRun(m: () -> R) : R  = m()  // 调用高阶函数
+fun <T, R> T.myRun(m: () -> R): R = m()  // 调用高阶函数
 //fun <T, R> T.myRun(m: () -> R) : R   { return m()}  // 调用高阶函数 这个等同于上面
 
 
 // 普通函数
-fun <T, R> myWith(input:T, mm: T.() -> R): R {
+fun <T, R> myWith(input: T, mm: T.() -> R): R {
     return input.mm() // this
 }
 
@@ -75,6 +75,12 @@ fun <T, R> T.myLet(mm: T.(T) -> R): R {
 }
 
 // 控制器 如果你是true，我就执行你，否则不执行
-inline fun onRun(isRun: Boolean,        mm: () -> Unit) {
+inline fun onRun(isRun: Boolean, mm: () -> Unit) {
     if (isRun) mm()
 }
+
+inline fun onRun1(isRun: Boolean, mm: () -> Unit, noinline bllc2: () -> Unit) {
+    if (isRun) mm()
+}
+
+

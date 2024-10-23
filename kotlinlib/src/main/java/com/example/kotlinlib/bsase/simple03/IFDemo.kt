@@ -21,7 +21,7 @@ fun main() {
         // .......  省略 200行代码
         number2
     }
-    // println(max)
+     println(max)
 
     // 使用区间做判断
     val x = 80
