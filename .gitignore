@@ -14,3 +14,14 @@
 .externalNativeBuild
 .cxx
 local.properties
+ /kotlinlib/build
+ /firebasepush/build
+ /netmasterlib/build
+ /enjoystulib/build
+ /memorylib/build
+ /opensourelib/build
+ /arouter_compiler/build
+ /arouter_annotation/build
+ /framworklib/build
+ /myjetpack/build
+ /uiapplication/build
