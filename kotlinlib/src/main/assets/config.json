@@ -1,0 +1,29 @@
+{
+  "products": [
+    {
+      "name": "水果",
+      "types": [
+        {
+          "id": "1",
+          "name": "苹果",
+          "location": "陕西",
+          "introduction": "越吃越健康"
+        },
+        {
+          "id": "2",
+          "name": "芒果",
+          "location": "海南",
+          "introduction": "越吃越健康"
+        },
+        {
+          "id": "3",
+          "name": "火龙果",
+          "location": "广西",
+          "introduction": "越吃越健康"
+        }
+      ]
+    }
+  ]
+}
+
+
