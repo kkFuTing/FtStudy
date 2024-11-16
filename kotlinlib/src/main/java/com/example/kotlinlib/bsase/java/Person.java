@@ -4,6 +4,7 @@ public class Person {
 
     // 构造代码块
     {
+
          // 1
     }
 

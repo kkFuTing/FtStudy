@@ -1,5 +1,7 @@
 package com.futing.javalib.algorithm;
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,6 +55,82 @@ public class Algorithm {
         System.out.println(new int[]{0, 1});
     }
     // TODO: 2024/8/17 二维数组要紧急 在二维数组中，直接使用 length 属性获取的是数组的行数，在指定的索引后加上 length（如 array[0].length）表示的是该行拥有多少个元素，即列数。
+
+    /**
+     * 92. 反转链表 II
+     * https://leetcode.cn/problems/reverse-linked-list-ii/
+     * 2024/11/16  27min 接近，但发现自己题目都没有看懂
+     */
+    //题解
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        // 设置 dummyNode 是这一类问题的一般做法
+        ListNode dummyNode = new ListNode(-1);
+        dummyNode.next = head;
+        ListNode pre = dummyNode;
+        for (int i = 0; i < left - 1; i++) {
+            pre = pre.next;
+        }
+        ListNode cur = pre.next;
+        ListNode next;
+        for (int i = 0; i < right - left; i++) {
+            next = cur.next;
+            cur.next = next.next;
+            next.next = pre.next;
+            pre.next = next;
+        }
+        return dummyNode.next;
+    }
+
+    //接近，但发现自己题目都没有看懂
+    public ListNode reverseBetween1(ListNode head, int left, int right) {
+        if (left == right) {
+            return head;
+        }
+        ListNode node = new ListNode(Integer.MAX_VALUE, head);
+        ListNode curNode = node.next;
+        ListNode preLeftNode = node;
+        ListNode preRightNode = node;
+        ListNode preNode = node;
+        int index = 1;
+        while (curNode != null) {
+            if (index == left) {
+                preLeftNode = preNode;
+            }
+            if (index == right) {
+                preRightNode = preNode;
+                break;
+            }
+            preNode = curNode;
+            curNode = curNode.next;
+            index++;
+        }
+
+        ListNode leftNode = preLeftNode.next;
+        ListNode rightNode = preRightNode.next;
+        ListNode rightNext = null;
+
+        if (rightNode != null) {
+            rightNext = rightNode.next;
+        }
+
+        preLeftNode.next = rightNode;
+
+        if (rightNode != null) {
+            if (right - left == 1) {
+                rightNode.next = leftNode;
+            } else {
+                rightNode.next = leftNode == null ? null : leftNode.next;
+            }
+
+        }
+
+        preRightNode.next = leftNode;
+        if (leftNode != null) {
+            leftNode.next = rightNext;
+        }
+
+        return node.next;
+    }
 
     /**
      * 91. 解码方法

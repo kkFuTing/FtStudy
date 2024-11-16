@@ -1,6 +1,0 @@
-R_DEF: Internal format may change without notice
-local
-id bt_okGo
-id bt_okHTTP
-id main
-layout activity_netmaster

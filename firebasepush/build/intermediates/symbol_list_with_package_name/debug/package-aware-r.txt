@@ -1,2 +1,0 @@
-com.example.firebasepush
-string msg_token_fmt
