@@ -90,7 +90,7 @@ class HomeFragment : Fragment() {
             override fun reqeustSuccess(result: Response) {
                 // gons   json  ---> bean
                 try {
-                    val resultData = result.body()?.string().toString()
+                    val resultData = result.body?.string().toString()
                     Log.e(
                         Flag.TAG,
                         "成功  数据在response里面  获取后台给我们的JSON 字符串 resultData:$resultData"

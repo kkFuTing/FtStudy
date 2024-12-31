@@ -31,7 +31,7 @@ fun displayMethod(textView: TextView) {
             // Thread.sleep(2000)
 
             // 不考虑异常的情况
-            val result = mOkHttpClient.newCall(mRequest).execute().body()?.string()
+            val result = mOkHttpClient.newCall(mRequest).execute().body?.string()
             val msg =  han.obtainMessage()
             msg.obj = result
             han.sendMessage(msg)
@@ -70,7 +70,7 @@ fun displayMethodOk(textView: TextView) = runBlocking {
         //这里是main线程
         //async           切到子线程(Dispatchers.IO)  此时使用了高阶函数！！！！
         textView.text = async(Dispatchers.IO) {
-            mOkHttpClient.newCall(mRequest).execute().body()?.string()  // 异步的
+            mOkHttpClient.newCall(mRequest).execute().body?.string()  // 异步的
         }.await()
     }
 }

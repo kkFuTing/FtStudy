@@ -7,6 +7,18 @@ import java.util.ArrayList
  */
 fun main() {
 
+    val checkCardNUmber1 = true
+    val checkCardNUmber2 = false
+    val resultAll = arrayListOf(checkCardNUmber1, checkCardNUmber2)
+
+// 生成所有字段的输出字符串
+    val outputString = resultAll
+        .mapIndexed { index, result -> "checkCardNUmber$index = $result" }
+        .joinToString(", ")
+
+    println(outputString)
+
+
     val type1 = Type("1", "健康", "陕西", "苹果")
     val type2 = Type("2", "甜的", "海南", "芒果")
     val type3 = Type("3", "好吃", "广西", "火龙果")
