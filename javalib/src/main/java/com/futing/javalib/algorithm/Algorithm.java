@@ -2,6 +2,7 @@ package com.futing.javalib.algorithm;
 
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
+import java.net.IDN;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
+
 
 public class Algorithm {
 
@@ -55,6 +57,99 @@ public class Algorithm {
         System.out.println(new int[]{0, 1});
     }
     // TODO: 2024/8/17 二维数组要紧急 在二维数组中，直接使用 length 属性获取的是数组的行数，在指定的索引后加上 length（如 array[0].length）表示的是该行拥有多少个元素，即列数。
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    /**
+     * 94. 二叉树的中序遍历 (左根右)
+     * https://leetcode.cn/problems/binary-tree-inorder-traversal/
+     * 2025/01/04 写了一会就参看题解了；
+     */
+    List<Integer> resultList = new ArrayList<>();
+
+    public List<Integer> inorderTraversal(TreeNode root) {
+        //递归
+        dfs3(root, resultList);
+        return resultList;
+    }
+
+    private void dfs3(TreeNode root, List<Integer> resultList) {
+        if (root == null) {
+            return;
+        }
+
+        dfs3(root.left, resultList);
+        resultList.add(root.val);
+        dfs3(root.right, resultList);
+    }
+
+    /**
+     * 93. 复原 IP 地址
+     * https://leetcode.cn/problems/restore-ip-addresses/
+     * 2024/12/31 时隔一个半月了’
+     */
+    static final int SEG_COUNT = 4;
+    List<String> ans1 = new ArrayList<String>();
+    int[] segments = new int[SEG_COUNT];
+
+    public List<String> restoreIpAddresses(String s) {
+        segments = new int[SEG_COUNT];
+        dfs1(s, 0, 0);
+        return ans1;
+    }
+
+    private void dfs1(String s, int segId, int segStart) {
+        if (segId == SEG_COUNT) {
+            if (segStart == s.length()) {
+                StringBuilder ipAddr = new StringBuilder();
+                for (int i = 0; i < SEG_COUNT; ++i) {
+                    ipAddr.append(segments[i]);
+                    if (i != SEG_COUNT - 1) {
+                        ipAddr.append(".");
+                    }
+                }
+                ans1.add(ipAddr.toString());
+            }
+            return;
+        }
+
+        if (segStart == s.length()) {
+            return;
+        }
+
+        if (s.charAt(segStart) == '0') {
+            segments[segId] = 0;
+            dfs1(s, segId + 1, segStart + 1);
+            return;
+        }
+        int addr = 0;
+        for (int segend = segStart; segend < s.length(); ++segend) {
+            addr = addr * 10 + (s.charAt(segend) - '0');
+            if (addr > 0 && addr <= 0XFF) {
+                segments[segId] = addr;
+                dfs1(s, segId + 1, segend + 1);
+            } else {
+                break;
+            }
+        }
+    }
 
     /**
      * 92. 反转链表 II
