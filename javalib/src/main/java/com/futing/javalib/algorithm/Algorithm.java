@@ -1,8 +1,5 @@
 package com.futing.javalib.algorithm;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
-
-import java.net.IDN;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
@@ -57,6 +55,55 @@ public class Algorithm {
         System.out.println(new int[]{0, 1});
     }
     // TODO: 2024/8/17 二维数组要紧急 在二维数组中，直接使用 length 属性获取的是数组的行数，在指定的索引后加上 length（如 array[0].length）表示的是该行拥有多少个元素，即列数。
+
+    /**
+     * 96. 不同的二叉搜索树
+     *https://leetcode.cn/problems/unique-binary-search-trees/
+     *2025/01/07
+     */
+//    public int numTrees(int n) {
+//
+//    }
+
+
+
+    /**
+     * 95. 不同的二叉搜索树 II
+     * https://leetcode.cn/problems/unique-binary-search-trees-ii/description/
+     * 2025/01/06 题目都看不懂呀（原因不理解二叉搜索树）
+     * 二叉搜索树 ：：根节点值大于左子节点的所有值；
+     */
+
+    //直接看的题解
+    public List<TreeNode> generateTrees(int n) {
+        if (n == 0) {
+            return new LinkedList<>();
+        }
+        return generateTrees(1, n);
+    }
+
+    private List<TreeNode> generateTrees(int start, int end) {
+        LinkedList<TreeNode> allTrees = new LinkedList<>();
+        if (start > end) {
+            allTrees.add(null);
+            return allTrees;
+        }
+        for (int i = start; i <= end; i++) {
+            List<TreeNode> leftTrees = generateTrees(start, i - 1);
+            List<TreeNode> rightTrees = generateTrees(i + 1, end);
+
+            for (TreeNode leftTree : leftTrees) {
+                for (TreeNode rightTree : rightTrees) {
+                    TreeNode currtree = new TreeNode(i);
+                    currtree.left = leftTree;
+                    currtree.right = rightTree;
+                    allTrees.add(currtree);
+                }
+            }
+
+        }
+        return allTrees;
+    }
 
     public class TreeNode {
         int val;
