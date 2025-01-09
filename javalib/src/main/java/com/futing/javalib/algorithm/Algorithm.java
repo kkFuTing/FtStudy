@@ -57,14 +57,50 @@ public class Algorithm {
     // TODO: 2024/8/17 二维数组要紧急 在二维数组中，直接使用 length 属性获取的是数组的行数，在指定的索引后加上 length（如 array[0].length）表示的是该行拥有多少个元素，即列数。
 
     /**
-     * 96. 不同的二叉搜索树
-     *https://leetcode.cn/problems/unique-binary-search-trees/
-     *2025/01/07
+     * 97. 交错字符串
+     * https://leetcode.cn/problems/interleaving-string/description/
+     * 2025/01/09
+     * 很难理解 直接看的答案
      */
-//    public int numTrees(int n) {
-//
-//    }
+    public boolean isInterleave(String s1, String s2, String s3) {
+        int n = s1.length(), m = s2.length(), t = s3.length();
+        if (n + m != t) {
+            return false;
+        }
 
+        boolean[][] f = new boolean[n + 1][m + 1];
+        f[0][0] = true;
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= m; j++) {
+                int p = i + j - 1;
+                if (i > 0) {
+                    f[i][j] = f[i][j] || (f[i - 1][j] && s1.charAt(i - 1) == s3.charAt(p));
+                }
+                if (j > 0) {
+                    f[i][j] = f[i][j] || (f[i][j - 1] && s2.charAt(j - 1) == s3.charAt(p));
+                }
+
+            }
+        }
+        return f[n][m];
+    }
+
+    /**
+     * 96. 不同的二叉搜索树
+     * https://leetcode.cn/problems/unique-binary-search-trees/
+     * 2025/01/07
+     */
+    public int numTrees(int n) {
+        int[] G = new int[1 + n];
+        G[0] = 1;
+        G[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            for (int j = 1; j <= i; j++) {
+                G[i] += G[j - 1] * G[i - j];
+            }
+        }
+        return G[n];
+    }
 
 
     /**
