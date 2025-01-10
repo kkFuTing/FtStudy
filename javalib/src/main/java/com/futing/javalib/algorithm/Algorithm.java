@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -55,6 +56,52 @@ public class Algorithm {
         System.out.println(new int[]{0, 1});
     }
     // TODO: 2024/8/17 二维数组要紧急 在二维数组中，直接使用 length 属性获取的是数组的行数，在指定的索引后加上 length（如 array[0].length）表示的是该行拥有多少个元素，即列数。
+
+
+    /**
+     * 98. 验证二叉搜索树
+     * https://leetcode.cn/problems/validate-binary-search-tree/
+     * 直接看的题解，中序遍历；
+     */
+    public boolean isValidBST(TreeNode root) {
+        Deque<TreeNode> stack = new LinkedList<TreeNode>();
+        double inorder = -Double.MAX_VALUE;
+        while (!stack.isEmpty() || root != null) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            if (root.val <= inorder) {
+                return false;
+            }
+            inorder = root.val;
+            root = root.right;
+        }
+        return true;
+    }
+
+    /**
+     * 98. 验证二叉搜索树
+     * https://leetcode.cn/problems/validate-binary-search-tree/
+     * 直接看的题解，递归；
+     */
+
+    public boolean isValidBST1(TreeNode root) {
+        return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    public boolean isValidBST(TreeNode node, long lower, long upper) {
+        if (node == null) {
+            return true;
+        }
+        if (node.val <= lower || node.val >= upper) {
+            return false;
+        }
+
+        return isValidBST(node.left, lower, node.val) && isValidBST(node.right, node.val, upper);
+    }
+
 
     /**
      * 97. 交错字符串
