@@ -34,6 +34,10 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
+        aidl = true  // 启用 AIDL 支持
+    }
+
+    buildFeatures {
         compose true
         dataBinding true
 

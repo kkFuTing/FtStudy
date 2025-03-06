@@ -52,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
         CraeteMessage();
 
         testglide();
+
+        toAIDL();
+    }
+
+    private void toAIDL() {
+
     }
 
     private void CraeteMessage() {

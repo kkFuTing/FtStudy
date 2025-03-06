@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:process="android:service">
+
+
+
+        <service
+            android:name=".server.MyService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.ft.myaidlserver.server.MyService" />
+            </intent-filter>
+
+        </service>
+    </application>
+</manifest>

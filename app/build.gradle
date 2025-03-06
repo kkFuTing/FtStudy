@@ -22,7 +22,9 @@ android {
                 JPUSH_CHANNEL  : "developer-default"
         ]
     }
-
+    buildFeatures {
+        aidl = true  // 启用 AIDL 支持
+    }
     buildTypes {
         release {
             minifyEnabled false
