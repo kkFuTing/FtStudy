@@ -54,6 +54,10 @@
 
         </activity>
 
+        <receiver
+            android:name=".receiver.AlarmReceiver"
+            android:exported="false" />
+
         <activity android:name="com.example.kotlinlib.project.modules.register.RegisterActivity"/>
 
         <activity android:name="com.example.kotlinlib.project.DetailLinkActivity"></activity>

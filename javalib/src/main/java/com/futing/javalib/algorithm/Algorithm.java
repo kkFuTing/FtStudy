@@ -58,6 +58,26 @@ public class Algorithm {
     // TODO: 2024/8/17 二维数组要紧急 在二维数组中，直接使用 length 属性获取的是数组的行数，在指定的索引后加上 length（如 array[0].length）表示的是该行拥有多少个元素，即列数。
 
     /**
+     * 704. 二分查找
+     * https://leetcode.cn/problems/binary-search/submissions/95573065/
+     * 2025/09/28
+     */
+    public int search704(int[] nums, int target) {
+        int pivot, left = 0, right = nums.length - 1;
+        while (left <= right) {
+            pivot = left + (right - left) / 2;
+            if (nums[pivot] == target) return pivot;
+            if (target < nums[pivot]) {
+                right = pivot - 1;
+            } else {
+                left = pivot + 1;
+            }
+        }
+        return -1;
+    }
+
+
+    /**
      * 99. 恢复二叉搜索树
      * https://leetcode.cn/problems/recover-binary-search-tree/
      */
